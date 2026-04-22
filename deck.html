@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ICO Underwriting — Investor Deck</title>
+<style>
+  :root {
+    --bg:       #080c14;
+    --surface:  #0f1623;
+    --border:   #1e2d45;
+    --accent:   #3b82f6;
+    --accent2:  #8b5cf6;
+    --green:    #10b981;
+    --red:      #ef4444;
+    --amber:    #f59e0b;
+    --text:     #e2e8f0;
+    --muted:    #64748b;
+    --dim:      #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ── deck shell ── */
+  #deck {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    padding: 60px 80px;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    animation: fadeIn .35s ease;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  /* ── nav ── */
+  #nav {
+    position: fixed;
+    bottom: 28px;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 100;
+  }
+  #nav button {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background .15s;
+  }
+  #nav button:hover { background: var(--border); }
+  #counter { color: var(--muted); font-size: 13px; min-width: 48px; text-align: center; }
+
+  /* ── progress bar ── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width .3s ease;
+    z-index: 100;
+  }
+
+  /* ── typography ── */
+  .label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -.02em;
+    color: #fff;
+  }
+  h2 {
+    font-size: clamp(24px, 2.8vw, 38px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.015em;
+    color: #fff;
+    margin-bottom: 32px;
+  }
+  h3 { font-size: 16px; font-weight: 600; color: var(--dim); margin-bottom: 6px; }
+  p  { font-size: 16px; line-height: 1.7; color: var(--dim); }
+  .big { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.75; color: var(--dim); max-width: 720px; }
+
+  /* ── subtitle on cover ── */
+  .tagline {
+    font-size: clamp(15px, 1.4vw, 20px);
+    color: var(--dim);
+    margin-top: 16px;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+
+  /* ── pill badges ── */
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .05em;
+  }
+  .pill-blue   { background: rgba(59,130,246,.15); color: var(--accent); border: 1px solid rgba(59,130,246,.3); }
+  .pill-green  { background: rgba(16,185,129,.15); color: var(--green);  border: 1px solid rgba(16,185,129,.3); }
+  .pill-red    { background: rgba(239,68,68,.15);  color: var(--red);    border: 1px solid rgba(239,68,68,.3); }
+  .pill-amber  { background: rgba(245,158,11,.15); color: var(--amber);  border: 1px solid rgba(245,158,11,.3); }
+  .pill-purple { background: rgba(139,92,246,.15); color: var(--accent2);border: 1px solid rgba(139,92,246,.3); }
+
+  /* ── cards ── */
+  .cards { display: grid; gap: 20px; }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-2 { grid-template-columns: repeat(2, 1fr); }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--dim); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
+  .card-value { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+  .card-sub   { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .card-body  { font-size: 14px; line-height: 1.65; color: var(--dim); margin-top: 10px; }
+
+  /* ── list ── */
+  ul.deck-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  ul.deck-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 16px;
+    color: var(--dim);
+    line-height: 1.55;
+  }
+  ul.deck-list li .icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── timeline ── */
+  .timeline { display: flex; gap: 0; align-items: flex-start; }
+  .tl-step { flex: 1; position: relative; }
+  .tl-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(50% + 20px);
+    right: calc(-50% + 20px);
+    height: 1px;
+    background: var(--border);
+  }
+  .tl-dot {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: var(--accent);
+    margin: 0 auto 14px;
+  }
+  .tl-title { text-align: center; font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .tl-body  { text-align: center; font-size: 12px; color: var(--muted); line-height: 1.5; padding: 0 8px; }
+
+  /* ── table ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  table thead th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(30,45,69,.6);
+    color: var(--dim);
+    vertical-align: middle;
+  }
+  table tbody tr:last-child td { border-bottom: none; }
+  table tbody tr:hover td { background: rgba(255,255,255,.02); }
+  .td-num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); }
+  .td-pos { color: var(--green); font-weight: 600; }
+  .td-neg { color: var(--red); font-weight: 600; }
+  .td-neu { color: var(--amber); font-weight: 600; }
+
+  /* ── two-col layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; align-items: start; }
+
+  /* ── divider ── */
+  .divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+  /* ── highlight box ── */
+  .highlight {
+    background: linear-gradient(135deg, rgba(59,130,246,.08), rgba(139,92,246,.08));
+    border: 1px solid rgba(59,130,246,.25);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .highlight p { color: var(--text); font-size: 15px; line-height: 1.65; }
+
+  /* ── payoff row ── */
+  .payoff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .payoff-card {
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .payoff-card .scenario { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; }
+  .payoff-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+  .payoff-row .key { color: var(--muted); }
+  .payoff-row .val { font-weight: 600; }
+
+  /* ── risk matrix ── */
+  .risk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .risk-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+  }
+  .risk-label { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 8px; }
+  .risk-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .risk-mit { font-size: 12px; color: var(--green); margin-top: 8px; line-height: 1.5; }
+
+  /* ── cover accent line ── */
+  .accent-line {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    margin: 20px 0;
+  }
+
+  /* ── footnote ── */
+  .footnote { font-size: 11px; color: var(--muted); margin-top: 24px; }
+
+  /* ── formula ── */
+  .formula {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: .01em;
+    margin-top: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<div id="deck">
+
+  <!-- ── 1. COVER ─────────────────────────────────────────────────────── -->
+  <div class="slide active">
+    <div class="label">ICO Infrastructure · Confidential</div>
+    <h1>ICO Underwriting</h1>
+    <div class="accent-line"></div>
+    <p class="tagline">
+      A structured underwriting product that gives retail ICO investors a
+      guaranteed refund right — while creating a risk/reward opportunity for
+      sophisticated market participants.
+    </p>
+    <div style="margin-top:48px; display:flex; gap:12px;">
+      <span class="pill pill-blue">Market Makers</span>
+      <span class="pill pill-purple">Crypto Funds</span>
+      <span class="pill pill-green">Structured Products</span>
+    </div>
+  </div>
+
+  <!-- ── 2. THE PROBLEM ────────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">The Problem</div>
+    <h2>ICOs are broken for everyone</h2>
+    <div class="cards cards-3">
+      <div class="card">
+        <div class="card-title">Retail investors</div>
+        <div class="card-body">
+          Buy at the ICO price with zero downside protection. If the token dumps
+          immediately, they have no recourse. Trust in the project team is
+          required but rarely warranted.
+        </div>
+        <div style="margin-top:14px;"><span class="pill pill-red">Zero protection</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Projects</div>
+        <div class="card-body">
+          Credibility is cheap to fake. Projects cannot credibly signal quality
+          or long-term commitment to the market. High-quality projects are
+          priced the same as low-quality ones.
+        </div>
+        <div style="margin-top:14px;"><span class="pill pill-amber">Adverse selection</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">The market</div>
+        <div class="card-body">
+          ICO tokens routinely dump on listing because early buyers are
+          incentivised to exit at first liquidity. Projects retain capital only
+          by preventing exits — which further erodes trust.
+        </div>
+        <div style="margin-top:14px;"><span class="pill pill-red">Reflexive sell pressure</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. SOLUTION OVERVIEW ──────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">The Solution</div>
+    <h2>Underwritten ICOs</h2>
+    <div class="two-col">
+      <div>
+        <p class="big">
+          A third-party underwriter commits, upfront, to purchase any tokens
+          that investors choose to return during a defined refund window — at a
+          pre-agreed floor price below the ICO price.
+        </p>
+        <div class="divider"></div>
+        <p class="big">
+          Investors get a real, funded refund right. Projects get a credibility
+          signal that separates them from low-quality issuers. Underwriters get
+          paid a negotiated premium and can acquire tokens at a discount to ICO
+          price if refunds materialise.
+        </p>
+      </div>
+      <div>
+        <div class="highlight">
+          <h3 style="color:#fff; margin-bottom:12px;">The core trade</h3>
+          <p>
+            The underwriter is selling a <strong>funded put option</strong> to
+            ICO investors: strike = ICO price, settlement = cash, expiry = end
+            of refund window. The premium is paid by the project. The
+            underwriter's downside is owning tokens at a discount to ICO price
+            — a position they are already equipped to manage.
+          </p>
+        </div>
+        <div class="formula">
+          Underwriter P&L =<br>
+          + Premium received<br>
+          − max(0, floor_price − market_price) × refunded_tokens
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. MECHANISM ──────────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Mechanism</div>
+    <h2>How it works — step by step</h2>
+    <div class="timeline" style="margin-bottom:36px;">
+      <div class="tl-step">
+        <div class="tl-dot">T₀</div>
+        <div class="tl-title">Deal signed</div>
+        <div class="tl-body">Project and underwriter agree on ICO price, floor price, premium, and refund window length.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">T₁</div>
+        <div class="tl-title">ICO opens</div>
+        <div class="tl-body">Tokens sold at fixed price. Raised funds held in contract. Premium transferred to underwriter from raise proceeds.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">T₂</div>
+        <div class="tl-title">Refund window</div>
+        <div class="tl-body">Investors may return tokens at the ICO price (100% refund) within the window — typically 7 days post-close.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">T₃</div>
+        <div class="tl-title">Settlement</div>
+        <div class="tl-body">Refunded tokens sold to underwriter at the floor price. Remaining raise funds released to project. Underwriter holds refunded tokens.</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot">T₄</div>
+        <div class="tl-title">Post-settlement</div>
+        <div class="tl-body">Underwriter manages token position on the open market. Project operates with retained capital.</div>
+      </div>
+    </div>
+    <div class="highlight">
+      <p>
+        The refund right is <strong>fully funded</strong>: the smart contract holds ICO proceeds in escrow during the refund window.
+        No counterparty risk to investors. Underwriter capital is committed at signing and locked until settlement.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 5. THREE PARTIES ──────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Participants</div>
+    <h2>What each party gets</h2>
+    <div class="cards cards-3">
+      <div class="card">
+        <div style="margin-bottom:16px;"><span class="pill pill-blue">Project</span></div>
+        <ul class="deck-list">
+          <li><span class="icon">✓</span> Credibility signal: willingness to underwrite separates quality projects</li>
+          <li><span class="icon">✓</span> Guaranteed capital floor regardless of refund rate</li>
+          <li><span class="icon">✓</span> Better investor participation — buyers who would otherwise stay out</li>
+          <li><span class="icon">✗</span> Pays underwriting premium (negotiated, separate from raise)</li>
+          <li><span class="icon">✗</span> Diluted upside: if tokens perform, underwriter still keeps premium</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:16px;"><span class="pill pill-green">Investor</span></div>
+        <ul class="deck-list">
+          <li><span class="icon">✓</span> 100% refund at ICO price within the refund window</li>
+          <li><span class="icon">✓</span> Fully funded: refund backed by smart contract escrow</li>
+          <li><span class="icon">✓</span> No cost — protection is provided by the project</li>
+          <li><span class="icon">✓</span> Upside exposure preserved after refund window closes</li>
+          <li><span class="icon">✗</span> Refund right expires; post-window, standard market risk applies</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:16px;"><span class="pill pill-purple">Underwriter</span></div>
+        <ul class="deck-list">
+          <li><span class="icon">✓</span> Premium income regardless of refund outcome</li>
+          <li><span class="icon">✓</span> Token acquisition at floor price (discount to ICO) if refunds occur</li>
+          <li><span class="icon">✓</span> Due diligence gives edge: underwrite only projects with conviction</li>
+          <li><span class="icon">✗</span> Capital lock-up during refund window</li>
+          <li><span class="icon">✗</span> Token price risk below floor price on refunded tokens</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 6. WORKED EXAMPLE ─────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Economics · Worked Example</div>
+    <h2>$10M ICO — three scenarios</h2>
+
+    <div style="margin-bottom:18px; font-size:13px; color:var(--muted); display:flex; gap:20px;">
+      <span>ICO price: <strong style="color:var(--text)">$1.00</strong></span>
+      <span>Floor price: <strong style="color:var(--text)">$0.70</strong></span>
+      <span>Raise: <strong style="color:var(--text)">10M tokens / $10M</strong></span>
+      <span>Premium: <strong style="color:var(--text)">$500K (5%)</strong></span>
+      <span>Refund window: <strong style="color:var(--text)">7 days</strong></span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Refund rate</th>
+          <th>Tokens bought by UW</th>
+          <th>UW capital deployed</th>
+          <th>Project retains</th>
+          <th>UW P&L (token @ floor)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-green">Bull — No refunds</span></td>
+          <td class="td-num">0%</td>
+          <td class="td-num">0</td>
+          <td class="td-num">$0</td>
+          <td class="td-num td-pos">$9.5M</td>
+          <td class="td-num td-pos">+$500K</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-amber">Base — Partial refunds</span></td>
+          <td class="td-num">30%</td>
+          <td class="td-num">3M tokens</td>
+          <td class="td-num">$2.1M</td>
+          <td class="td-num td-pos">$8.0M</td>
+          <td class="td-num td-pos">+$500K</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-red">Bear — Full refunds</span></td>
+          <td class="td-num">100%</td>
+          <td class="td-num">10M tokens</td>
+          <td class="td-num">$7.0M</td>
+          <td class="td-num td-pos">$6.5M</td>
+          <td class="td-num td-neu">+$500K (at floor) ¹</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footnote">
+      ¹ At floor price ($0.70) the underwriter breaks even on token position, netting the premium. Below floor,
+      each $0.10 price decline on 10M tokens = $1M additional loss offset by the $500K premium (break-even token price: $0.65).
+    </div>
+
+    <div class="formula" style="margin-top:18px;">
+      Project floor (worst case) = Raise − Premium − (refund_rate × tokens × spread)<br>
+      where spread = ICO_price − floor_price = $0.30<br><br>
+      → $10M − $0.5M − (100% × 10M × $0.30) = <strong>$6.5M guaranteed floor</strong>
+    </div>
+  </div>
+
+  <!-- ── 7. UNDERWRITER RISK PROFILE ───────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Underwriter Economics</div>
+    <h2>Risk / reward profile</h2>
+    <div class="two-col">
+      <div>
+        <h3 style="color:#fff; margin-bottom:16px;">Upside cases</h3>
+        <ul class="deck-list" style="margin-bottom:28px;">
+          <li><span class="icon" style="color:var(--green)">↑</span> <strong>Token performs</strong> — zero refunds, collect full premium with no capital deployment. Pure yield on committed (but unused) capital.</li>
+          <li><span class="icon" style="color:var(--green)">↑</span> <strong>Partial refunds + recovery</strong> — acquire tokens at $0.70, token recovers above floor → capital gain on position + premium.</li>
+          <li><span class="icon" style="color:var(--green)">↑</span> <strong>Market maker synergy</strong> — underwriters with existing liquidity desks can offset token exposure through hedges or inventory management.</li>
+        </ul>
+        <h3 style="color:#fff; margin-bottom:16px;">Downside cases</h3>
+        <ul class="deck-list">
+          <li><span class="icon" style="color:var(--red)">↓</span> <strong>Token collapses</strong> — high refund rate + token price below floor. Premium provides a buffer; max loss = (floor − market) × refunded tokens − premium.</li>
+          <li><span class="icon" style="color:var(--red)">↓</span> <strong>Illiquid token</strong> — refunded token position is hard to exit. Mitigated by exchange listing commitments at deal sign.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-title">Break-even token price</div>
+          <div class="card-value">$0.65</div>
+          <div class="card-sub">On a 100% refund with 5% premium at $0.70 floor</div>
+          <div class="card-body">
+            Premium absorbs the first $0.05 of price decline below floor on a full-refund scenario.
+            Each additional $0.10 decline = ~$1M loss per $10M raise.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Capital efficiency</div>
+          <div class="card-value">Up to 7.1%</div>
+          <div class="card-sub">Premium yield on max committed capital (no refunds)</div>
+          <div class="card-body">
+            If zero refunds occur, the committed $7M was never deployed.
+            The $500K premium = 7.1% yield on peak capital commitment with zero deployment.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 8. PAYOFF SCENARIOS DEEP DIVE ─────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Scenario Analysis</div>
+    <h2>Underwriter P&amp;L across outcomes</h2>
+    <div class="payoff-grid" style="margin-bottom:24px;">
+      <div class="payoff-card">
+        <div class="scenario" style="color:var(--green)">🟢 Best case</div>
+        <div class="payoff-row"><span class="key">Refund rate</span><span class="val">0%</span></div>
+        <div class="payoff-row"><span class="key">Capital deployed</span><span class="val">$0</span></div>
+        <div class="payoff-row"><span class="key">Premium earned</span><span class="val td-pos">+$500K</span></div>
+        <div class="payoff-row"><span class="key">Token P&L</span><span class="val">—</span></div>
+        <div class="payoff-row"><span class="key">Net P&L</span><span class="val td-pos">+$500K</span></div>
+      </div>
+      <div class="payoff-card">
+        <div class="scenario" style="color:var(--amber)">🟡 Base case</div>
+        <div class="payoff-row"><span class="key">Refund rate</span><span class="val">30%</span></div>
+        <div class="payoff-row"><span class="key">Capital deployed</span><span class="val">$2.1M</span></div>
+        <div class="payoff-row"><span class="key">Premium earned</span><span class="val td-pos">+$500K</span></div>
+        <div class="payoff-row"><span class="key">Token P&L (@ $0.80)</span><span class="val td-pos">+$300K</span></div>
+        <div class="payoff-row"><span class="key">Net P&L</span><span class="val td-pos">+$800K</span></div>
+      </div>
+      <div class="payoff-card">
+        <div class="scenario" style="color:var(--red)">🔴 Stress case</div>
+        <div class="payoff-row"><span class="key">Refund rate</span><span class="val">100%</span></div>
+        <div class="payoff-row"><span class="key">Capital deployed</span><span class="val">$7.0M</span></div>
+        <div class="payoff-row"><span class="key">Premium earned</span><span class="val td-pos">+$500K</span></div>
+        <div class="payoff-row"><span class="key">Token P&L (@ $0.50)</span><span class="val td-neg">−$2.0M</span></div>
+        <div class="payoff-row"><span class="key">Net P&L</span><span class="val td-neg">−$1.5M</span></div>
+      </div>
+    </div>
+    <div class="highlight">
+      <p>
+        The stress case requires token price to fall <strong>30% below the floor price</strong> (50% below ICO price)
+        with <strong>100% refund participation</strong> to produce a meaningful loss. In practice, high refund rates
+        are correlated with visible token weakness — giving the underwriter early signal to begin hedging.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 9. RISK FACTORS ───────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Risk Management</div>
+    <h2>Key risks &amp; mitigations</h2>
+    <div class="risk-grid">
+      <div class="risk-item">
+        <div class="risk-label" style="color:var(--red)">Adverse selection</div>
+        <div class="risk-desc">Projects with weak fundamentals self-select into the product, expecting high refund rates and needing the capital floor.</div>
+        <div class="risk-mit">→ Underwriter DD is the gate. Only underwrite projects where you have conviction on fundamentals and team. Premium must reflect quality signal.</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-label" style="color:var(--red)">Coordinated refund attack</div>
+        <div class="risk-desc">Organised buyers could purchase the ICO solely to trigger 100% refunds, forcing maximum token deployment at floor price.</div>
+        <div class="risk-mit">→ Per-wallet refund caps, KYC gates, and whitelist mechanisms limit attack surface. Refund window is short (7 days) limiting coordination time.</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-label" style="color:var(--amber)">Token illiquidity</div>
+        <div class="risk-desc">Post-settlement, underwriter holds a large token position in a potentially illiquid market with no guaranteed exit.</div>
+        <div class="risk-mit">→ Deal terms include exchange listing commitments and minimum liquidity requirements. Underwriter can negotiate lock-waiver or OTC desk rights.</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-label" style="color:var(--amber)">Smart contract risk</div>
+        <div class="risk-desc">Escrow and settlement logic must be audited. A contract bug could misallocate raised funds or fail to execute refunds.</div>
+        <div class="risk-mit">→ All contracts audited by two independent firms before launch. Underwriter can require audit completion as a condition of signing.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10. WHY UNDERWRITERS WIN ──────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Strategic Fit</div>
+    <h2>Why this is a natural fit for market makers</h2>
+    <div class="three-col">
+      <div>
+        <div class="card">
+          <div class="card-title">Existing infrastructure</div>
+          <div class="card-body">
+            Market makers already run token inventory desks, OTC books, and hedging operations. Absorbing refunded tokens at a discount
+            is an extension of existing workflows — not a new capability.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Deal flow advantage</div>
+          <div class="card-body">
+            Underwriting the ICO puts you closest to the project at day zero — before the token is listed.
+            You build a relationship, gain data on refund rates, and can structure MM agreements off the back of the underwrite.
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-title">Premium as carry</div>
+          <div class="card-body">
+            On zero-refund deals, the premium is pure yield on committed capital that was never deployed.
+            A portfolio of underwriting positions generates carry while the underlying capital remains available.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="highlight">
+      <p>
+        The analogy in TradFi is clear: this is <strong>IPO stabilisation / greenshoe mechanics</strong> ported to token markets.
+        The difference is that here the protection is explicit, pre-agreed, and structurally enforced — not a discretionary
+        aftermarket intervention. Sophisticated desks already understand this payoff profile.
+      </p>
+    </div>
+  </div>
+
+  <!-- ── 11. DEAL TERMS ────────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Engagement Model</div>
+    <h2>Deal structure &amp; terms</h2>
+    <div class="two-col">
+      <div>
+        <h3 style="color:#fff; margin-bottom:16px; font-size:15px;">Negotiated per deal</h3>
+        <table>
+          <thead>
+            <tr><th>Parameter</th><th>Range</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Floor price</td>
+              <td class="td-num">60–80% of ICO price</td>
+              <td>Higher floor = higher premium</td>
+            </tr>
+            <tr>
+              <td>Underwriting premium</td>
+              <td class="td-num">2–8% of raise</td>
+              <td>Paid in USDC at deal close</td>
+            </tr>
+            <tr>
+              <td>Refund window</td>
+              <td class="td-num">5–14 days</td>
+              <td>Longer window = higher premium</td>
+            </tr>
+            <tr>
+              <td>Max underwriting size</td>
+              <td class="td-num">Negotiated cap</td>
+              <td>Underwriter can cap total token exposure</td>
+            </tr>
+            <tr>
+              <td>Premium currency</td>
+              <td class="td-num">USDC preferred</td>
+              <td>Token payment possible at underwriter discretion</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 style="color:#fff; margin-bottom:16px; font-size:15px;">Process</h3>
+        <ul class="deck-list">
+          <li><span class="icon">①</span> <strong>Due diligence</strong> — project submits materials; underwriter reviews team, tokenomics, use-of-funds, legal.</li>
+          <li><span class="icon">②</span> <strong>Term sheet</strong> — floor price, premium, window, caps agreed and signed.</li>
+          <li><span class="icon">③</span> <strong>Capital lock</strong> — underwriter commits floor-price capital to escrow or provides LoC ahead of ICO launch.</li>
+          <li><span class="icon">④</span> <strong>ICO + window</strong> — platform manages refunds; underwriter receives daily refund data.</li>
+          <li><span class="icon">⑤</span> <strong>Settlement</strong> — refunded tokens and capital exchanged atomically on-chain.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 12. CTA ────────────────────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="label">Next Steps</div>
+    <h1>Let's build the first deal together</h1>
+    <div class="accent-line"></div>
+    <p class="tagline">
+      We are onboarding a small group of underwriting partners to co-design the
+      product mechanics, smart contract spec, and deal terms for the initial cohort
+      of ICOs.
+    </p>
+    <div class="cards cards-3" style="margin-top:36px; max-width:860px;">
+      <div class="card">
+        <div class="card-title">What we need from you</div>
+        <div class="card-body">Appetite for underwriting size, preferred floor / premium range, DD checklist, and settlement preference (on-chain vs. custodied).</div>
+      </div>
+      <div class="card">
+        <div class="card-title">What you get</div>
+        <div class="card-body">First-mover deal flow, co-authored contract spec, input on risk parameters, and exclusivity on the first tranche of ICOs.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Timeline</div>
+        <div class="card-body">Smart contract audit in progress. Target first underwritten ICO within 60 days of partner onboarding.</div>
+      </div>
+    </div>
+    <div class="footnote" style="margin-top:32px;">
+      This document is confidential and intended solely for sophisticated investors. Nothing herein constitutes an offer of securities or investment advice.
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- nav -->
+<div id="nav">
+  <button onclick="go(-1)">← Prev</button>
+  <span id="counter"></span>
+  <button onclick="go(1)">Next →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let cur = 0;
+
+  function render() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+    document.getElementById('counter').textContent = (cur + 1) + ' / ' + slides.length;
+    document.getElementById('progress').style.width = ((cur + 1) / slides.length * 100) + '%';
+  }
+
+  function go(dir) {
+    cur = Math.max(0, Math.min(slides.length - 1, cur + dir));
+    render();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+
+  render();
+</script>
+</body>
+</html>
