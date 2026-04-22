@@ -200,6 +200,55 @@
 
   /* footnote */
   .footnote { font-size: 11px; color: var(--muted); margin-top: 20px; }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+
+    body { height: auto; overflow-y: auto; overflow-x: hidden; }
+
+    #deck { height: auto; overflow: visible; }
+
+    .slide {
+      position: relative;
+      height: auto;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding: 44px 20px 88px;
+      inset: auto;
+      justify-content: flex-start;
+    }
+
+    .label { margin-bottom: 10px; }
+    h2 { margin-bottom: 18px; font-size: 22px; }
+    .big { font-size: 15px; }
+
+    .cards-3,
+    .cards-2    { grid-template-columns: 1fr; }
+    .two-col    { grid-template-columns: 1fr; gap: 20px; }
+    .three-col  { grid-template-columns: 1fr; gap: 14px; }
+    .decision-grid { grid-template-columns: 1fr; gap: 14px; }
+
+    /* schedule grid: keep full width, scroll horizontally */
+    .schedule-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .schedule-grid { min-width: 620px; }
+
+    /* tables: horizontal scroll */
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* stat strip on cover */
+    .stat-strip { flex-wrap: wrap; gap: 16px; }
+
+    .formula { font-size: 11px; }
+    .highlight p { font-size: 13px; }
+
+    #nav {
+      bottom: 16px;
+      right: 50%;
+      transform: translateX(50%);
+      gap: 8px;
+    }
+    #nav button { padding: 8px 14px; font-size: 13px; }
+  }
 </style>
 </head>
 <body>
@@ -223,7 +272,7 @@
     <span class="pill pill-purple">Declining refund right</span>
     <span class="pill pill-amber">Reduced TGE sell pressure</span>
   </div>
-  <div style="margin-top:28px; display:flex; gap:28px;">
+  <div class="stat-strip" style="margin-top:28px; display:flex; gap:28px;">
     <div style="border-left:2px solid var(--border); padding-left:16px;">
       <div style="font-size:22px; font-weight:700; color:#fff;">$450M+</div>
       <div style="font-size:11px; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;">Raised on platform</div>
