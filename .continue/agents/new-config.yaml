@@ -1,0 +1,19 @@
+# This is an example configuration file
+# To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
+
+name: Example Config
+version: 1.0.0
+schema: v1
+
+# Define which models can be used
+# https://docs.continue.dev/customization/models
+models:
+  - name: ImpossibleModelRouter
+    provider: openai
+    model: auto
+    apiKey: mr_ffeeed3f21d7491eb30d7d9653a34872
+    apiBase: https://api.tirith.sh/v1
+    roles:
+      - chat
+      - edit
+

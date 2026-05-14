@@ -1,0 +1,18 @@
+{
+  "servers": {
+    "tirith-gateway": {
+      "args": [
+        "gateway",
+        "run",
+        "--upstream-bin",
+        "tirith",
+        "--upstream-arg",
+        "mcp-server",
+        "--config",
+        "/home/aresg/.config/tirith/gateway.yaml"
+      ],
+      "command": "tirith",
+      "type": "stdio"
+    }
+  }
+}
