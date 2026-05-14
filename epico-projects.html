@@ -4,260 +4,471 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>EPICO Raise — For Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:       #060d0d;
-    --surface:  #0c1a1a;
-    --border:   #163030;
-    --accent:   #10b981;
-    --accent2:  #3b82f6;
-    --purple:   #8b5cf6;
-    --green:    #10b981;
-    --red:      #ef4444;
-    --amber:    #f59e0b;
-    --text:     #e2e8f0;
-    --muted:    #4b7272;
-    --dim:      #94a3b8;
+    --brand-blue:       #3f75f5;
+    --brand-blue-soft:  #eef2fe;
+    --brand-blue-ink:   #2952c4;
+    --neutral-950:      #0a0a0a;
+    --neutral-900:      #0e1729;
+    --neutral-800:      #1f2937;
+    --neutral-600:      #4b5563;
+    --neutral-400:      #9ca3af;
+    --neutral-200:      #e5e7eb;
+    --neutral-100:      #f3f4f6;
+    --neutral-50:       #f9fafb;
+    --white:            #ffffff;
+    --green:            #16a34a;
+    --green-soft:       #dcfce7;
+    --red:              #dc2626;
+    --red-soft:         #fee2e2;
+    --amber:            #d97706;
+    --amber-soft:       #fef3c7;
+    --purple:           #7c3aed;
+    --purple-soft:      #ede9fe;
+    --font-heading:     'Archivo Black', 'PP Monument Extended Black', system-ui, sans-serif;
+    --font-body:        'Roboto', system-ui, sans-serif;
+    --radius-full:      999px;
+    --radius-xl:        24px;
+    --radius-md:        8px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  html, body { background: var(--white); }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    color: var(--neutral-800);
+    font-family: var(--font-body);
     height: 100vh;
     overflow: hidden;
     user-select: none;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
   #deck { width: 100vw; height: 100vh; position: relative; }
 
   .slide {
     display: none;
-    width: 100%; height: 100%;
-    padding: 56px 80px;
-    flex-direction: column;
-    justify-content: center;
     position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    padding: 96px 80px 64px;
+    flex-direction: column;
+    background: var(--white);
+    overflow: hidden;
     animation: fadeIn .3s ease;
   }
   .slide.active { display: flex; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
 
-  /* nav */
+  .slide.bg-tint  { background: var(--neutral-50); }
+  .slide.bg-blue  { background: var(--brand-blue); color: var(--white); }
+  .slide.bg-dark  { background: var(--neutral-900); color: var(--white); }
+  .slide.no-pad   { padding: 0; }
+
+  .chrome-top {
+    position: absolute; top: 36px; left: 80px; right: 80px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 10;
+  }
+  .label-pill {
+    display: inline-flex; align-items: center;
+    height: 36px; padding: 0 22px;
+    background: var(--neutral-950); color: var(--white);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  }
+  .bg-blue .label-pill { background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28); }
+  .bg-dark .label-pill { background: transparent; border: 1px solid rgba(255,255,255,0.4); }
+
+  .logo-mark {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 14px;
+    letter-spacing: .06em;
+    color: var(--neutral-950);
+    text-transform: uppercase;
+  }
+  .bg-blue .logo-mark, .bg-dark .logo-mark { color: var(--white); }
+  .logo-icon svg { display: block; width: 28px; height: 28px; }
+  .logo-icon .logo-bg    { fill: var(--neutral-950); }
+  .logo-icon .logo-slash { stroke: var(--white); }
+  .bg-blue .logo-icon .logo-bg    { fill: var(--white); }
+  .bg-blue .logo-icon .logo-slash { stroke: var(--brand-blue); }
+  .bg-dark .logo-icon .logo-bg    { fill: var(--white); }
+  .bg-dark .logo-icon .logo-slash { stroke: var(--neutral-900); }
+
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1360px;
+    width: 100%;
+  }
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(56px, 6.4vw, 96px);
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: var(--neutral-950);
+  }
+  .bg-blue h1, .bg-dark h1 { color: var(--white); }
+
+  h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(34px, 4vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+    text-transform: uppercase;
+    color: var(--neutral-600);
+    margin-bottom: 16px;
+  }
+  h2 .blue { color: var(--brand-blue); }
+  h2 .dark { color: var(--neutral-950); }
+  .bg-blue h2          { color: rgba(255,255,255,0.7); }
+  .bg-blue h2 .blue,
+  .bg-blue h2 .dark    { color: var(--white); }
+  .bg-dark h2          { color: rgba(255,255,255,0.7); }
+  .bg-dark h2 .blue    { color: var(--brand-blue); }
+  .bg-dark h2 .dark    { color: var(--white); }
+
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 17px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    color: var(--neutral-950);
+  }
+  .bg-blue h3, .bg-dark h3 { color: var(--white); }
+
+  .subtitle {
+    font-style: italic;
+    font-size: 14px;
+    color: var(--neutral-600);
+    max-width: 880px;
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+  .bg-blue .subtitle, .bg-dark .subtitle { color: rgba(255,255,255,0.85); }
+
+  p { font-size: 15px; line-height: 1.7; color: var(--neutral-800); }
+  .bg-blue p, .bg-dark p { color: rgba(255,255,255,0.92); }
+
+  .lead { font-size: 17px; line-height: 1.7; color: var(--neutral-800); max-width: 760px; }
+  .bg-blue .lead, .bg-dark .lead { color: rgba(255,255,255,0.92); }
+
+  strong { color: var(--neutral-950); font-weight: 700; }
+  .bg-blue strong, .bg-dark strong { color: var(--white); }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    display: flex; flex-direction: column;
+  }
+  .card.tint  { background: var(--brand-blue-soft); border-color: rgba(63,117,245,0.18); box-shadow: none; }
+  .card.dark  { background: var(--neutral-900); border-color: transparent; color: var(--white); }
+  .card.dark h3, .card.dark p { color: var(--white); }
+  .card .body-text { font-size: 14px; line-height: 1.6; color: var(--neutral-600); margin-top: 12px; }
+
+  .card-accent-top { border-top: 5px solid var(--brand-blue); }
+  .card-accent-top.amber  { border-top-color: var(--amber); }
+  .card-accent-top.green  { border-top-color: var(--green); }
+  .card-accent-top.red    { border-top-color: var(--red); }
+  .card-accent-top.purple { border-top-color: var(--purple); }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+
+  .two-col-57 {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .barlist { display: flex; flex-direction: column; gap: 28px; }
+  .barlist > div {
+    border-left: 4px solid var(--brand-blue);
+    padding-left: 18px;
+  }
+  .barlist h3 { margin-bottom: 6px; }
+  .barlist .body-text { font-size: 14px; color: var(--neutral-600); line-height: 1.55; margin-top: 0; }
+  .bg-blue .barlist > div  { border-left-color: var(--white); }
+  .bg-blue .barlist .body-text { color: rgba(255,255,255,0.85); }
+  .bg-dark .barlist .body-text { color: rgba(255,255,255,0.85); }
+
+  /* Cover */
+  .cover { padding: 80px; }
+  .cover-pattern {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    background:
+      radial-gradient(circle at 88% 24%, rgba(255,255,255,0.5), transparent 38%),
+      radial-gradient(circle at 70% 78%, rgba(255,255,255,0.3), transparent 40%),
+      radial-gradient(circle at 22% 10%, rgba(255,255,255,0.18), transparent 45%);
+  }
+  .cover .body { position: relative; z-index: 2; }
+  .cover-eyebrow {
+    font-family: var(--font-heading);
+    font-size: 13px; letter-spacing: .14em;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+  .cover h1 {
+    font-size: clamp(60px, 8vw, 128px);
+    line-height: 0.96;
+    margin-bottom: 28px;
+  }
+  .cover .accent { width: 88px; height: 6px; background: var(--white); border-radius: 3px; margin-bottom: 28px; }
+  .cover .tagline {
+    font-size: clamp(16px, 1.5vw, 22px);
+    line-height: 1.55;
+    max-width: 760px;
+    color: rgba(255,255,255,0.95);
+    font-weight: 400;
+  }
+  .cover-pills { display: flex; gap: 10px; margin-top: 36px; flex-wrap: wrap; }
+  .cover-pills .pill {
+    background: rgba(255,255,255,0.15);
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.28);
+  }
+
+  .pill {
+    display: inline-flex; align-items: center; height: 30px;
+    padding: 0 16px; border-radius: var(--radius-full);
+    font-size: 11px; font-weight: 700; letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .pill-blue   { background: var(--brand-blue-soft); color: var(--brand-blue); }
+  .pill-green  { background: var(--green-soft);      color: var(--green); }
+  .pill-red    { background: var(--red-soft);        color: var(--red); }
+  .pill-amber  { background: var(--amber-soft);      color: var(--amber); }
+  .pill-dark   { background: var(--neutral-950);     color: var(--white); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .stat { padding: 0 32px; border-left: 1px solid var(--neutral-200); }
+  .stat:first-child { padding-left: 0; border-left: 0; }
+  .bg-blue .stat { border-left: 1px solid rgba(255,255,255,0.35); }
+  .stat-num {
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 4vw, 56px);
+    color: var(--neutral-950);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .bg-blue .stat-num { color: var(--white); }
+  .stat-label {
+    font-size: 11px; color: var(--neutral-400);
+    letter-spacing: .12em; text-transform: uppercase;
+    margin-top: 14px; font-weight: 700;
+  }
+  .bg-blue .stat-label { color: rgba(255,255,255,0.8); }
+
+  .highlight {
+    background: var(--brand-blue-soft);
+    border: 1px solid rgba(63,117,245,0.2);
+    border-radius: var(--radius-xl);
+    padding: 22px 28px;
+    margin-top: 24px;
+  }
+  .highlight p { color: var(--neutral-800); font-size: 15px; line-height: 1.6; }
+  .highlight strong { color: var(--brand-blue-ink); }
+
+  /* Cycle */
+  .cycle { display: grid; grid-template-columns: 1fr 32px 1fr 32px 1fr; align-items: stretch; gap: 0; }
+  .cycle-step {
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    border-top: 5px solid var(--brand-blue);
+  }
+  .cycle-step.airdrop { border-top-color: var(--green); }
+  .cycle-step.team    { border-top-color: var(--amber); }
+  .cycle-step.refund  { border-top-color: var(--brand-blue); }
+  .cycle-arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--neutral-400); font-size: 24px;
+  }
+  .cycle-num {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    letter-spacing: .12em;
+    color: var(--neutral-400);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .cycle-step h3 { margin-bottom: 8px; }
+  .cycle-step .body-text { font-size: 14px; line-height: 1.55; color: var(--neutral-600); margin-top: 0; }
+  .cycle-value {
+    font-family: var(--font-heading);
+    font-size: 28px;
+    color: var(--neutral-950);
+    margin-bottom: 12px;
+    letter-spacing: -.02em;
+  }
+  .cycle-step.airdrop .cycle-value { color: var(--green); }
+  .cycle-step.team    .cycle-value { color: var(--amber); }
+  .cycle-step.refund  .cycle-value { color: var(--brand-blue); }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 1px solid var(--neutral-200);
+    font-size: 13.5px;
+  }
+  thead th {
+    text-align: left;
+    background: var(--neutral-50);
+    padding: 16px 20px;
+    font-family: var(--font-heading);
+    font-size: 11px;
+    color: var(--neutral-950);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    border-bottom: 1px solid var(--neutral-200);
+  }
+  tbody td {
+    padding: 14px 20px;
+    color: var(--neutral-600);
+    border-bottom: 1px solid var(--neutral-200);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--neutral-950); }
+  td.pos { color: var(--green); font-weight: 700; }
+  td.neg { color: var(--red); font-weight: 700; }
+
+  .formula {
+    background: var(--neutral-900);
+    color: var(--brand-blue-soft);
+    padding: 18px 24px;
+    border-radius: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 12.5px;
+    line-height: 1.8;
+    margin-top: 18px;
+  }
+  .formula .ok { color: var(--brand-blue); font-weight: 700; }
+
+  .burst {
+    position: absolute;
+    right: -180px; top: 50%;
+    transform: translateY(-50%);
+    width: 720px; height: 720px;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+
+  /* State cards (raise outcomes) */
+  .state-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 12px; }
+  .state-card {
+    background: var(--white);
+    border: 1px solid var(--neutral-200);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .state-label { font-size: 11px; color: var(--neutral-400); letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
+  .state-value {
+    font-family: var(--font-heading);
+    font-size: 32px; line-height: 1;
+    color: var(--neutral-950);
+    margin-top: 10px;
+    letter-spacing: -.03em;
+  }
+  .state-value.blue  { color: var(--brand-blue); }
+  .state-value.amber { color: var(--amber); }
+  .state-sub { font-size: 11px; color: var(--neutral-400); margin-top: 6px; }
+
+  .footnote { font-size: 11px; color: var(--neutral-400); margin-top: 16px; letter-spacing: .04em; }
+  .bg-blue .footnote, .bg-dark .footnote { color: rgba(255,255,255,0.6); }
+
   #nav {
-    position: fixed; bottom: 28px; right: 40px;
-    display: flex; align-items: center; gap: 12px; z-index: 100;
+    position: fixed; bottom: 24px; right: 32px;
+    display: flex; align-items: center; gap: 10px; z-index: 100;
   }
   #nav button {
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); padding: 8px 18px; border-radius: 6px;
-    cursor: pointer; font-size: 14px; transition: background .15s;
+    background: var(--neutral-950); color: var(--white);
+    border: 0;
+    height: 40px; padding: 0 22px;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body); font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity .15s;
   }
-  #nav button:hover { background: var(--border); }
-  #counter { color: var(--muted); font-size: 13px; min-width: 48px; text-align: center; }
+  #nav button:hover { opacity: 0.8; }
+  #counter { color: var(--neutral-400); font-size: 12px; min-width: 56px; text-align: center; font-weight: 700; letter-spacing: .06em; }
 
   #progress {
-    position: fixed; top: 0; left: 0; height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: var(--brand-blue);
     transition: width .3s ease; z-index: 100;
   }
 
-  /* type */
-  .label {
-    font-size: 11px; font-weight: 600; letter-spacing: .12em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 18px;
+  .closer .body { text-align: left; }
+  .closer h1 { font-size: clamp(52px, 7vw, 104px); }
+  .closer .contacts { display: flex; gap: 36px; margin-top: 48px; flex-wrap: wrap; }
+  .closer .contact-row {
+    display: flex; gap: 10px; align-items: center;
+    color: var(--white); font-size: 14px;
   }
-  h1 {
-    font-size: clamp(32px,4vw,52px); font-weight: 700;
-    line-height: 1.12; letter-spacing: -.02em; color: #fff;
-  }
-  h2 {
-    font-size: clamp(22px,2.6vw,36px); font-weight: 700;
-    line-height: 1.2; letter-spacing: -.015em; color: #fff; margin-bottom: 28px;
-  }
-  p { font-size: 16px; line-height: 1.7; color: var(--dim); }
-  .big { font-size: clamp(14px,1.3vw,17px); line-height: 1.75; color: var(--dim); max-width: 700px; }
-
-  .tagline { font-size: clamp(15px,1.4vw,19px); color: var(--dim); margin-top: 16px; max-width: 620px; line-height: 1.65; }
-  .accent-line { width: 48px; height: 3px; background: linear-gradient(90deg,var(--accent),var(--accent2)); border-radius: 2px; margin: 20px 0; }
-
-  /* pills */
-  .pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; letter-spacing: .05em; }
-  .pill-green  { background: rgba(16,185,129,.15); color: var(--green);  border: 1px solid rgba(16,185,129,.3); }
-  .pill-blue   { background: rgba(59,130,246,.15);  color: var(--accent2);border: 1px solid rgba(59,130,246,.3); }
-  .pill-red    { background: rgba(239,68,68,.15);   color: var(--red);   border: 1px solid rgba(239,68,68,.3); }
-  .pill-amber  { background: rgba(245,158,11,.15);  color: var(--amber); border: 1px solid rgba(245,158,11,.3); }
-  .pill-purple { background: rgba(139,92,246,.15);  color: var(--purple);border: 1px solid rgba(139,92,246,.3); }
-
-  /* cards */
-  .cards { display: grid; gap: 18px; }
-  .cards-3 { grid-template-columns: repeat(3,1fr); }
-  .cards-2 { grid-template-columns: repeat(2,1fr); }
-  .card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 22px 26px;
-  }
-  .card-title { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-  .card-value { font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
-  .card-sub   { font-size: 12px; color: var(--muted); margin-top: 4px; }
-  .card-body  { font-size: 13px; line-height: 1.65; color: var(--dim); margin-top: 10px; }
-
-  /* list */
-  ul.deck-list { list-style: none; display: flex; flex-direction: column; gap: 13px; }
-  ul.deck-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: var(--dim); line-height: 1.55; }
-  ul.deck-list li .icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-
-  /* layouts */
-  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; align-items: start; }
-  .divider   { height: 1px; background: var(--border); margin: 24px 0; }
-
-  .highlight {
-    background: linear-gradient(135deg, rgba(16,185,129,.07), rgba(59,130,246,.07));
-    border: 1px solid rgba(16,185,129,.22); border-radius: 10px; padding: 18px 22px;
-  }
-  .highlight p { color: var(--text); font-size: 14px; line-height: 1.65; }
-
-  /* table */
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  table thead th {
-    text-align: left; font-size: 10px; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--muted); padding: 9px 14px; border-bottom: 1px solid var(--border);
-  }
-  table tbody td { padding: 10px 14px; border-bottom: 1px solid rgba(22,48,48,.7); color: var(--dim); vertical-align: middle; }
-  table tbody tr:last-child td { border-bottom: none; }
-  table tbody tr:hover td { background: rgba(255,255,255,.015); }
-  .td-num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); }
-  .td-pos { color: var(--green); font-weight: 600; }
-  .td-neg { color: var(--red); font-weight: 600; }
-  .td-dim { color: var(--muted); }
-
-  /* formula */
-  .formula {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 18px; font-family: 'Courier New', monospace;
-    font-size: 12px; color: var(--accent); letter-spacing: .01em; margin-top: 14px;
+  .closer .contact-row .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--white);
   }
 
-  /* monthly cycle */
-  .cycle-grid {
-    display: grid;
-    grid-template-columns: 1fr 32px 1fr 32px 1fr;
-    gap: 0;
-    align-items: stretch;
-    margin-bottom: 8px;
-  }
-  .cycle-step {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px 24px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cycle-step::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .cycle-airdrop::before { background: var(--green); }
-  .cycle-team::before    { background: var(--amber); }
-  .cycle-refund::before  { background: var(--accent2); }
-  .cycle-num {
-    font-size: 11px; font-weight: 700; letter-spacing: .12em;
-    color: var(--muted); margin-bottom: 10px;
-  }
-  .cycle-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-  .cycle-value {
-    font-size: clamp(20px,2.2vw,28px);
-    font-weight: 700; letter-spacing: -.02em;
-    margin-bottom: 10px;
-  }
-  .cycle-airdrop .cycle-value { color: var(--green); }
-  .cycle-team    .cycle-value { color: var(--amber); }
-  .cycle-refund  .cycle-value { color: var(--accent2); }
-  .cycle-body { font-size: 13px; color: var(--dim); line-height: 1.55; }
-  .cycle-arrow {
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 22px;
-  }
-  .cycle-loop {
-    margin-top: 18px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px; color: var(--muted);
-    letter-spacing: .06em; text-transform: uppercase;
-  }
-  .cycle-loop-track {
-    flex: 1; height: 4px; border-radius: 2px;
-    background: linear-gradient(90deg, rgba(16,185,129,.4), rgba(245,158,11,.4), rgba(59,130,246,.4));
-    position: relative;
-  }
-  .cycle-loop-dots {
-    position: absolute; inset: 0;
-    display: grid; grid-template-columns: repeat(10, 1fr);
-  }
-  .cycle-loop-dots span {
-    border-right: 1px solid rgba(0,0,0,.5);
-  }
-  .cycle-loop-dots span:last-child { border-right: none; }
-
-  .state-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px 20px;
-    flex: 1;
-  }
-  .state-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
-  .state-value { font-size: clamp(22px,2.4vw,30px); font-weight: 700; letter-spacing: -.02em; }
-  .state-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
-  .state-group h3 {
-    font-size: 12px; color: var(--dim); text-transform: uppercase;
-    letter-spacing: .08em; font-weight: 600; margin-bottom: 12px;
-  }
-  .state-group { display: flex; flex-direction: column; }
-  .state-row { display: flex; gap: 14px; }
-
-  /* comparison table  */
-  .comp-col-head { font-weight: 700; color: #fff; font-size: 13px; }
-  .comp-check { color: var(--green); }
-  .comp-cross { color: var(--red); }
-  .comp-partial { color: var(--amber); }
-
-  /* footnote */
-  .footnote { font-size: 11px; color: var(--muted); margin-top: 20px; }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     body { height: auto; overflow-y: auto; overflow-x: hidden; }
     #deck { height: auto; overflow: visible; }
     .slide {
       position: relative;
-      height: auto;
-      min-height: 100vh;
-      min-height: 100svh;
-      padding: 44px 20px 88px;
+      height: auto; min-height: 100vh;
+      padding: 100px 24px 88px;
       inset: auto;
       justify-content: flex-start;
     }
-    .label { margin-bottom: 10px; }
-    h2 { margin-bottom: 18px; font-size: 22px; }
-    .big { font-size: 15px; }
-    .cards-3, .cards-2 { grid-template-columns: 1fr; }
-    .two-col    { grid-template-columns: 1fr; gap: 20px; }
-    .three-col  { grid-template-columns: 1fr; gap: 14px; }
-    .cycle-grid { grid-template-columns: 1fr; gap: 10px; }
-    .cycle-arrow { transform: rotate(90deg); height: 24px; }
-    .state-row { flex-direction: column; }
-    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .stat-strip { flex-wrap: wrap; gap: 16px; }
-    .formula { font-size: 11px; }
-    .highlight p { font-size: 13px; }
-    #nav { bottom: 16px; right: 50%; transform: translateX(50%); gap: 8px; }
-    #nav button { padding: 8px 14px; font-size: 13px; }
+    .cover { padding: 96px 24px; }
+    .chrome-top { top: 24px; left: 24px; right: 24px; }
+    .label-pill { height: 30px; font-size: 10px; padding: 0 16px; }
+    .logo-mark { font-size: 12px; gap: 8px; }
+    .logo-icon svg { width: 22px; height: 22px; }
+    h1 { font-size: 44px; }
+    h2 { font-size: 30px; }
+    .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 18px; }
+    .grid-2, .two-col-57 { grid-template-columns: 1fr; gap: 24px; }
+    .cycle { grid-template-columns: 1fr; gap: 14px; }
+    .cycle-arrow { transform: rotate(90deg); height: 28px; }
+    .stats { grid-template-columns: 1fr 1fr; gap: 24px; }
+    .stat { padding: 0; border-left: 0; }
+    .state-row { grid-template-columns: 1fr; }
+    table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; font-size: 12px; }
+    .burst { width: 360px; height: 360px; right: -120px; opacity: 0.6; }
+    #nav { bottom: 16px; right: 50%; transform: translateX(50%); }
+    #nav button { padding: 0 16px; height: 36px; font-size: 12px; }
   }
 </style>
 </head>
@@ -266,242 +477,265 @@
 <div id="progress"></div>
 <div id="deck">
 
-<!-- ── 1. COVER ───────────────────────────────────────────────────────── -->
-<div class="slide active">
-  <div class="label">Impossible Finance · For Projects</div>
-  <h1>EPICO Raise</h1>
-  <p style="font-size: clamp(16px,1.8vw,22px); color: var(--accent); font-weight:600; letter-spacing:.01em; margin-top:10px;">Escrow-Protected ICO</p>
-  <div class="accent-line"></div>
-  <p class="tagline">
-    Raise capital you earn. Use the strongest credibility signal available
-    to a token-launching team — and broaden the investor base willing to fund you.
-  </p>
-  <div style="margin-top:36px; display:flex; gap:12px; flex-wrap:wrap;">
-    <span class="pill pill-green">Larger raises</span>
-    <span class="pill pill-blue">Credibility signal</span>
-    <span class="pill pill-purple">Reduced TGE dump</span>
-    <span class="pill pill-amber">Curated by IF</span>
+<svg width="0" height="0" style="position:absolute;">
+  <symbol id="if-logo" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" class="logo-bg"/>
+    <path d="M 28 72 L 72 28" class="logo-slash" stroke-width="9" stroke-linecap="round" fill="none"/>
+  </symbol>
+</svg>
+
+<!-- ── 1. COVER ─────────────────────────────────────────────────────────── -->
+<div class="slide bg-blue active cover">
+  <div class="cover-pattern"></div>
+  <div class="chrome-top">
+    <span class="label-pill">For Projects</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-  <div class="stat-strip" style="margin-top:28px; display:flex; gap:28px;">
-    <div style="border-left:2px solid var(--border); padding-left:16px;">
-      <div style="font-size:22px; font-weight:700; color:#fff;">$450M+</div>
-      <div style="font-size:11px; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;">Raised on platform</div>
-    </div>
-    <div style="border-left:2px solid var(--border); padding-left:16px;">
-      <div style="font-size:22px; font-weight:700; color:#fff;">5 years</div>
-      <div style="font-size:11px; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;">Launchpad track record</div>
-    </div>
-    <div style="border-left:2px solid var(--border); padding-left:16px;">
-      <div style="font-size:22px; font-weight:700; color:#fff;">End-to-end</div>
-      <div style="font-size:11px; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.06em;">Curation, escrow, ops</div>
+  <div class="body">
+    <div class="cover-eyebrow">Impossible Finance · EPICO Raise</div>
+    <h1>Raise<br>The Capital<br>You Earn</h1>
+    <div class="accent"></div>
+    <p class="tagline">
+      Use the strongest credibility signal available to a launching team. Attract
+      capital that won't touch an unprotected ICO, defend your TGE price, and
+      compound trust on-chain — month by month.
+    </p>
+    <div class="cover-pills">
+      <span class="pill">Larger raises</span>
+      <span class="pill">Credibility signal</span>
+      <span class="pill">Reduced TGE dump</span>
+      <span class="pill">Curated by IF</span>
     </div>
   </div>
 </div>
 
-<!-- ── 2. THE PROBLEM ─────────────────────────────────────────────────── -->
+<!-- ── 2. THE PROBLEM ───────────────────────────────────────────────────── -->
 <div class="slide">
-  <div class="label">The Problem</div>
-  <h2>You raise less than you should — and your token dumps anyway</h2>
-  <div class="cards cards-3">
-    <div class="card">
-      <div class="card-title">Trust deficit caps your raise</div>
-      <div class="card-body">
-        Sophisticated capital won't size up into an unprotected ICO. Your
-        addressable investor base is shrunk by rug risk you can't credibly
-        rule out. The buyers left are the ones who'll dump first.
-      </div>
-      <div style="margin-top:14px;"><span class="pill pill-red">Smaller raise</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">TGE destroys your launch</div>
-      <div class="card-body">
-        Tokens unlock all at once. Everyone races to be the first seller.
-        Your price collapses on day one, momentum dies, and the narrative
-        you spent a year building gets reset to "another dump."
-      </div>
-      <div style="margin-top:14px;"><span class="pill pill-red">Day-one collapse</span></div>
-    </div>
-    <div class="card">
-      <div class="card-title">No way to signal seriousness</div>
-      <div class="card-body">
-        Vesting schedules, multisigs, audits — these are weak signals.
-        Investors have seen all of them used by teams that later rugged.
-        You need a structure no rug-puller would accept.
-      </div>
-      <div style="margin-top:14px;"><span class="pill pill-amber">Weak signal</span></div>
-    </div>
+  <div class="chrome-top">
+    <span class="label-pill">The Problem</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-  <div class="divider"></div>
-  <div class="highlight">
-    <p>The structural problem: investors price your token assuming the worst, because they have no recourse if you underdeliver. <strong>EPICO inverts the signal</strong> — you accept escrow, you attract better capital, you raise more.</p>
-  </div>
-</div>
-
-<!-- ── 3. THE SOLUTION ────────────────────────────────────────────────── -->
-<div class="slide">
-  <div class="label">The Solution</div>
-  <h2>Earn your capital. Win the right buyers.</h2>
-  <div class="two-col">
-    <div>
-      <p class="big">
-        Raised funds enter an <strong style="color:#fff;">Impossible Finance escrow</strong>
-        and are released to you in 10 monthly tranches — tied to non-refunded
-        investor balances. You receive capital as you keep your investor base.
-      </p>
-      <div class="divider"></div>
-      <p class="big">
-        Investors hold a <strong style="color:#fff;">declining refund right</strong> against
-        their unclaimed tokens, fully backed by the escrow. They can exit if you
-        miss — but the right decays linearly to zero over 10 months.
-      </p>
-      <div class="divider"></div>
-      <p class="big">
-        The <strong style="color:#fff;">structure itself is the signal</strong>. A team
-        planning to rug wouldn't accept escrow. Teams that do accept it self-identify
-        as serious — and get priced accordingly.
-      </p>
+  <div class="body">
+    <h2><span class="dark">Token Raises Start With A</span> <span class="blue">Credibility Deficit</span></h2>
+    <p class="subtitle">"Equity gives buyers legal rights. Tokens don't. Industry practices have spent the trust. Promises don't price into a raise anymore."</p>
+    <div class="grid-3" style="margin-top:24px;">
+      <div class="card card-accent-top red">
+        <h3>No Legal Floor Like Equity</h3>
+        <p class="body-text">
+          Equity buyers get shareholder rights, clawbacks, and legal recourse if
+          the team underdelivers. Token buyers have none of that. Every ICO is
+          purchased on trust alone — there is no statutory backstop investors can
+          fall back on.
+        </p>
+        <div style="margin-top:18px;"><span class="pill pill-red">No Recourse</span></div>
+      </div>
+      <div class="card card-accent-top red">
+        <h3>Trust Has Been Spent</h3>
+        <p class="body-text">
+          Years of rugs, vested-then-dumped unlocks, and silent pivots have
+          hardened investor skepticism. Audits, multisigs, vesting schedules —
+          all priced in and discounted. The marginal investor no longer takes
+          promises at face value.
+        </p>
+        <div style="margin-top:18px;"><span class="pill pill-red">Promises Don't Price</span></div>
+      </div>
+      <div class="card card-accent-top amber">
+        <h3>Credibility Takes Time</h3>
+        <p class="body-text">
+          Teams that consistently ship and accrue value to the token do earn
+          recognition — but it takes 12+ months of visible delivery. At launch
+          you have no track record. You need a way to earn trust as you build,
+          not just claim it on day one.
+        </p>
+        <div style="margin-top:18px;"><span class="pill pill-amber">Need Time To Prove</span></div>
+      </div>
     </div>
-    <div>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-title">Bilateral commitment</div>
-        <div class="card-body" style="font-size:14px;">
-          <strong style="color:#fff;">Investors commit capital for 10 months</strong> — every
-          month they don't refund extends your runway and proves traction.<br><br>
-          <strong style="color:#fff;">You commit to monthly delivery</strong> — every month
-          you ship is a month the refund right decays in your favour.<br><br>
-          Both sides are tied to outcomes, not just to each other on day one.
-        </div>
-      </div>
-      <div class="formula">
-        Team tranche(month M) = 10% × Σ non-refunded deposits<br>
-        Investor refund right(M) = (1 − M/10) × Deposit<br><br>
-        ∴ Capital follows execution ✓
-      </div>
+    <div class="highlight">
+      <p>The teams who deliver get rewarded eventually — but you need to raise capital and survive long enough to prove it. <strong>EPICO is the bridge</strong>: investors fund you, you demonstrate execution on-chain every month, and credibility compounds on the calendar instead of waiting on belief at TGE.</p>
     </div>
   </div>
 </div>
 
-<!-- ── 4. MECHANISM ───────────────────────────────────────────────────── -->
-<div class="slide">
-  <div class="label">How It Works</div>
-  <h2>Capital, delivered monthly</h2>
-  <div class="two-col" style="gap:36px;">
-    <div>
-      <div class="card" style="margin-bottom:14px; border-left:3px solid var(--accent);">
-        <div class="card-title">At ICO close / TGE</div>
-        <div class="card-body">
-          Investor funds enter Impossible Finance escrow. Your tokens are minted
-          per your tokenomics and the public sale allocation enters the protected pool.
-          <strong style="color:#fff;">You receive nothing yet.</strong> Investors can claim
-          their tokens immediately — but doing so waives their refund right.
+<!-- ── 3. THE SOLUTION ──────────────────────────────────────────────────── -->
+<div class="slide bg-tint">
+  <div class="chrome-top">
+    <span class="label-pill">The Solution</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
+  </div>
+  <div class="body">
+    <h2><span class="dark">Earn Your Capital.</span> <span class="blue">Win The Right Buyers.</span></h2>
+    <p class="subtitle">"A team planning to rug wouldn't accept escrow. Teams that do accept it self-identify as serious — and get priced accordingly."</p>
+    <div class="two-col-57" style="margin-top:12px;">
+      <div class="barlist">
+        <div>
+          <h3>Escrow-Released Capital</h3>
+          <p class="body-text">Raised funds enter an Impossible Finance escrow and release to you in 10 monthly tranches — tied to non-refunded investor balances. You receive capital as you keep your investor base.</p>
+        </div>
+        <div>
+          <h3>Declining Refund Right</h3>
+          <p class="body-text">Investors hold a declining refund right against their unclaimed tokens, fully backed by the escrow. They can exit if you miss — but the right decays linearly to zero over 10 months.</p>
+        </div>
+        <div>
+          <h3>The Structure Itself Is The Signal</h3>
+          <p class="body-text">A team planning to rug wouldn't accept escrow. Teams that do accept it self-identify as serious — and get priced accordingly. Where promises have failed, the structure speaks.</p>
         </div>
       </div>
-      <div class="card" style="margin-bottom:14px; border-left:3px solid var(--accent2);">
-        <div class="card-title">Every month (1–10)</div>
-        <div class="card-body">
-          Three settlements happen on-chain:<br><br>
-          <strong style="color:#fff;">① Team tranche</strong> — you receive 10% of every non-refunded investor's deposit.<br><br>
-          <strong style="color:#fff;">② Airdrop</strong> — holders receive 10% of their tokens automatically.<br><br>
-          <strong style="color:#fff;">③ Refund window</strong> — any investor who opted out receives their protected balance.
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card" style="margin-bottom:14px; border-left:3px solid var(--amber);">
-        <div class="card-title">Refunds are funded — never on you</div>
-        <div class="card-body">
-          Refunds come from escrow, not from your treasury. You can't be
-          drained, sued, or chased. The escrow contract is structurally solvent
-          for every possible refund scenario. Your only exposure is the
-          capital you would have received from that investor — never more.
-        </div>
-      </div>
-      <div class="card" style="border-left:3px solid var(--purple);">
-        <div class="card-title">Month 10 — fully settled</div>
-        <div class="card-body">
-          All tokens delivered to holders. Escrow at zero. You've received
-          the full residual raise from every investor who chose to stay.
-          Refund right expired naturally — by design.
+      <div>
+        <div class="card">
+          <h3>Bilateral Commitment</h3>
+          <p class="body-text" style="margin-top:14px;">
+            <strong>Investors commit capital for 10 months</strong> — every month they
+            don't refund extends your runway and proves traction.
+          </p>
+          <p class="body-text" style="margin-top:10px;">
+            <strong>You commit to monthly delivery</strong> — every month you ship is a
+            month the refund right decays in your favor.
+          </p>
+          <p class="body-text" style="margin-top:10px;">
+            Both sides are tied to outcomes — not just to each other on day one.
+          </p>
+          <div class="formula">
+            Team tranche(month M) = 10% × Σ non-refunded deposits<br>
+            Refund right(M)       = (1 − M/10) × Deposit<br>
+            <span class="ok">∴ Capital follows execution ✓</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── 5. THE MONTHLY CYCLE ───────────────────────────────────────────── -->
+<!-- ── 4. MECHANISM ─────────────────────────────────────────────────────── -->
 <div class="slide">
-  <div class="label">The Monthly Cycle</div>
-  <h2>Three on-chain settlements every month — for 10 months</h2>
-
-  <div class="cycle-grid">
-    <div class="cycle-step cycle-airdrop">
-      <div class="cycle-num">01 · AIRDROP</div>
-      <div class="cycle-value">10% tokens</div>
-      <div class="cycle-body">
-        Holders receive 10% of their purchased tokens automatically.
-        Their participation in your token economy compounds each month.
+  <div class="chrome-top">
+    <span class="label-pill">How It Works</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
+  </div>
+  <div class="body">
+    <h2><span class="dark">Capital,</span> <span class="blue">Delivered Monthly</span></h2>
+    <p class="subtitle">"At TGE, funds enter escrow and tokens enter the protected pool. Every month, you receive capital and your investors receive tokens."</p>
+    <div class="grid-2">
+      <div>
+        <div class="card card-accent-top" style="margin-bottom:18px;">
+          <h3>At ICO Close / TGE</h3>
+          <p class="body-text">
+            Investor funds enter Impossible Finance escrow. Your tokens are minted
+            per your tokenomics and the public sale allocation enters the protected
+            pool. <strong>You receive nothing yet.</strong> Investors can claim their tokens
+            immediately — but doing so waives their refund right.
+          </p>
+        </div>
+        <div class="card card-accent-top">
+          <h3>Every Month (1–10)</h3>
+          <p class="body-text"><strong>① Team tranche</strong> — you receive 10% of every non-refunded investor's deposit.</p>
+          <p class="body-text" style="margin-top:6px;"><strong>② Airdrop</strong> — holders receive 10% of their tokens automatically.</p>
+          <p class="body-text" style="margin-top:6px;"><strong>③ Refund window</strong> — any investor who opted out receives their protected balance.</p>
+        </div>
       </div>
-    </div>
-    <div class="cycle-arrow">→</div>
-    <div class="cycle-step cycle-team">
-      <div class="cycle-num">02 · YOUR TRANCHE</div>
-      <div class="cycle-value">+10% capital</div>
-      <div class="cycle-body">
-        You receive 10% of every non-refunded investor's deposit from escrow.
-        Capital arrives monthly as your roadmap delivers.
-      </div>
-    </div>
-    <div class="cycle-arrow">→</div>
-    <div class="cycle-step cycle-refund">
-      <div class="cycle-num">03 · REFUND WINDOW</div>
-      <div class="cycle-value">Funded exit</div>
-      <div class="cycle-body">
-        Any investor who opts out is paid from escrow — never from your treasury.
-        Refund right then decays by 10% for everyone who stayed.
+      <div>
+        <div class="card card-accent-top amber" style="margin-bottom:18px;">
+          <h3>Refunds Are Funded — Never On You</h3>
+          <p class="body-text">
+            Refunds come from escrow, not from your treasury. You can't be drained,
+            sued, or chased. The escrow contract is structurally solvent for every
+            possible refund scenario. Your only exposure is the capital you would
+            have received from that investor — never more.
+          </p>
+        </div>
+        <div class="card card-accent-top purple">
+          <h3>Month 10 — Fully Settled</h3>
+          <p class="body-text">
+            All tokens delivered to holders. Escrow at zero. You've received the
+            full residual raise from every investor who chose to stay. Refund right
+            expired naturally — by design.
+          </p>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="cycle-loop">
-    <span>Month 1</span>
-    <div class="cycle-loop-track">
-      <div class="cycle-loop-dots">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-    </div>
-    <span>Month 10</span>
+<!-- ── 5. MONTHLY CYCLE ─────────────────────────────────────────────────── -->
+<div class="slide bg-tint">
+  <div class="chrome-top">
+    <span class="label-pill">Monthly Cycle</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-
-  <div class="divider"></div>
-  <div class="two-col" style="gap:32px;">
-    <div class="state-group">
-      <h3>If every investor holds · $10M raised</h3>
-      <div class="state-row">
-        <div class="state-card">
-          <div class="state-label">Capital you receive</div>
-          <div class="state-value" style="color:var(--amber)">$10M</div>
-          <div class="state-sub">paid in 10 monthly tranches</div>
-        </div>
-        <div class="state-card">
-          <div class="state-label">Refunds paid</div>
-          <div class="state-value" style="color:var(--muted)">$0</div>
-          <div class="state-sub">zero attrition</div>
-        </div>
+  <div class="body">
+    <h2><span class="dark">Three On-Chain Settlements,</span> <span class="blue">Every Month</span></h2>
+    <p class="subtitle">"Airdrop, capital release, and refund window — for 10 months. Each step compounds your credibility."</p>
+    <div class="cycle">
+      <div class="cycle-step airdrop">
+        <div class="cycle-num">01 · Airdrop</div>
+        <div class="cycle-value">10% Tokens</div>
+        <p class="body-text">
+          Holders receive 10% of their purchased tokens automatically. Their
+          participation in your token economy compounds each month.
+        </p>
+      </div>
+      <div class="cycle-arrow">→</div>
+      <div class="cycle-step team">
+        <div class="cycle-num">02 · Your Tranche</div>
+        <div class="cycle-value">+10% Capital</div>
+        <p class="body-text">
+          You receive 10% of every non-refunded investor's deposit from escrow.
+          Capital arrives monthly as your roadmap delivers.
+        </p>
+      </div>
+      <div class="cycle-arrow">→</div>
+      <div class="cycle-step refund">
+        <div class="cycle-num">03 · Refund Window</div>
+        <div class="cycle-value">Funded Exit</div>
+        <p class="body-text">
+          Any investor who opts out is paid from escrow — never your treasury.
+          Refund right then decays by 10% for everyone who stayed.
+        </p>
       </div>
     </div>
-    <div class="state-group">
-      <h3>If 30% refund at month 4 · $10M raised</h3>
-      <div class="state-row">
-        <div class="state-card">
-          <div class="state-label">Capital you receive</div>
-          <div class="state-value" style="color:var(--amber)">$8.2M</div>
-          <div class="state-sub">$1M / month for M1–M4, then $0.7M for M5–M10</div>
+    <div class="grid-2" style="margin-top:48px;">
+      <div>
+        <h3 style="margin-bottom: 12px;">If Every Investor Holds · $10M Raised</h3>
+        <div class="state-row">
+          <div class="state-card">
+            <div class="state-label">Capital you receive</div>
+            <div class="state-value amber">$10M</div>
+            <div class="state-sub">paid in 10 monthly tranches</div>
+          </div>
+          <div class="state-card">
+            <div class="state-label">Refunds paid</div>
+            <div class="state-value" style="color:var(--neutral-400);">$0</div>
+            <div class="state-sub">zero attrition</div>
+          </div>
         </div>
-        <div class="state-card">
-          <div class="state-label">Refunds paid (from escrow)</div>
-          <div class="state-value" style="color:var(--accent2)">$1.8M</div>
-          <div class="state-sub">30 investors × 60% refund right</div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">If 30% Refund At Month 4 · $10M Raised</h3>
+        <div class="state-row">
+          <div class="state-card">
+            <div class="state-label">Capital you receive</div>
+            <div class="state-value amber">$8.2M</div>
+            <div class="state-sub">$1M / mo M1–M4, then $0.7M / mo M5–M10</div>
+          </div>
+          <div class="state-card">
+            <div class="state-label">Refunds paid (from escrow)</div>
+            <div class="state-value blue">$1.8M</div>
+            <div class="state-sub">30 investors × 60% refund right</div>
+          </div>
         </div>
       </div>
     </div>
@@ -510,210 +744,283 @@
 
 <!-- ── 6. RAISE QUALITY ────────────────────────────────────────────────── -->
 <div class="slide">
-  <div class="label">Raise Quality</div>
-  <h2>Three reasons EPICO raises more</h2>
-  <div class="three-col">
-    <div class="card">
-      <div class="card-title">Broader investor base</div>
-      <div class="card-body">
-        Risk-averse capital that won't touch a standard ICO will participate
-        when the downside is funded. You unlock buyers who were sitting out —
-        instead of competing for the same yield-hunting crowd.
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Premium pricing power</div>
-      <div class="card-body">
-        Investors will pay more per token when their downside is protected.
-        The refund right has explicit option value — and that value shows up
-        in your sale terms.
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Pre-sale narrative</div>
-      <div class="card-body">
-        "We chose to escrow our raise" is the strongest credibility signal
-        currently available to a launching team. Self-selecting into the
-        structure positions you above peers — before a single dollar comes in.
-      </div>
-    </div>
+  <div class="chrome-top">
+    <span class="label-pill">Raise Quality</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-  <div class="divider"></div>
-  <div class="highlight">
-    <p>
-      The EPICO premium isn't a discount you give away. It's the
-      <strong>price difference between a project that could rug and one that demonstrably can't</strong> —
-      and you get to capture it by accepting a structure rug-pullers can't sign up for.
-    </p>
-  </div>
-</div>
-
-<!-- ── 7. TGE PRICE DEFENSE ────────────────────────────────────────────── -->
-<div class="slide">
-  <div class="label">TGE Price Defense</div>
-  <h2>Your launch holds — not crashes</h2>
-  <div class="two-col">
-    <div>
-      <h3 style="color:#fff; font-size:15px; margin-bottom:16px;">Standard ICO at TGE</h3>
-      <ul class="deck-list" style="margin-bottom:28px;">
-        <li><span class="icon" style="color:var(--red)">→</span> Every holder is unlocked at the same moment with paper gains</li>
-        <li><span class="icon" style="color:var(--red)">→</span> First sellers take the best price — racing to exit is rational</li>
-        <li><span class="icon" style="color:var(--red)">→</span> Initial price collapse signals weakness, triggering more selling</li>
-        <li><span class="icon" style="color:var(--red)">→</span> Your narrative becomes "another dump" in week one</li>
-      </ul>
-      <h3 style="color:#fff; font-size:15px; margin-bottom:16px;">EPICO at TGE</h3>
-      <ul class="deck-list">
-        <li><span class="icon" style="color:var(--green)">→</span> Claiming to sell forfeits the 100% refund right — there's a real cost to dumping</li>
-        <li><span class="icon" style="color:var(--green)">→</span> Rational investors hold the option rather than throw it away</li>
-        <li><span class="icon" style="color:var(--green)">→</span> Reduced supply at launch supports your price — no cascade</li>
-        <li><span class="icon" style="color:var(--green)">→</span> You enter price discovery from a position of strength</li>
-      </ul>
-    </div>
-    <div>
-      <div class="card" style="margin-bottom:16px;">
-        <div class="card-title">Engineered, not enforced</div>
-        <div class="card-body" style="font-size:14px;">
-          Lockups suppress sell pressure by force — and create a known dump date
-          everyone front-runs. EPICO suppresses sell pressure through
-          <strong style="color:#fff;">rational incentive</strong>: investors don't dump
-          because the option to refund is worth more than the marginal upside of selling early.
-          <br><br>
-          Result: a launch that holds, instead of a launch that explodes and re-builds.
-        </div>
+  <div class="body">
+    <h2><span class="dark">Three Reasons EPICO</span> <span class="blue">Raises More</span></h2>
+    <p class="subtitle">"You unlock buyers who were sitting out, command premium pricing, and own the strongest credibility signal available to a launching team."</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Broader Investor Base</h3>
+        <p class="body-text">
+          Risk-averse capital that won't touch a standard ICO will participate
+          when the downside is funded. You unlock buyers who were sitting out —
+          instead of competing for the same yield-hunting crowd.
+        </p>
       </div>
-      <div class="highlight">
-        <p>
-          EPICO turns your ICO buyers from <strong>short-term traders</strong>
-          into <strong>option-holders</strong>. The buyers who'd have dumped at TGE
-          now hold by choice — and your launch price reflects that.
+      <div class="card">
+        <h3>Premium Pricing Power</h3>
+        <p class="body-text">
+          Investors will pay more per token when their downside is protected.
+          The refund right has explicit option value — and that value shows up
+          in your sale terms.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Pre-Sale Narrative</h3>
+        <p class="body-text">
+          "We chose to escrow our raise" is the strongest credibility signal
+          available to a launching team. Self-selecting into the structure
+          positions you above peers — before a single dollar comes in.
         </p>
       </div>
     </div>
+    <div class="highlight">
+      <p>The EPICO premium isn't a discount you give away. It's the <strong>price difference between a project that could rug and one that demonstrably can't</strong> — and you get to capture it by accepting a structure rug-pullers can't sign up for.</p>
+    </div>
   </div>
 </div>
 
-<!-- ── 8. TOKENOMICS FLEXIBILITY ──────────────────────────────────────── -->
-<div class="slide">
-  <div class="label">Scope</div>
-  <h2>What EPICO governs — and what stays yours</h2>
-  <div class="two-col">
-    <div>
-      <div class="card" style="border-left:3px solid var(--accent); margin-bottom:16px;">
-        <div class="card-title">What EPICO governs</div>
-        <div class="card-body">
-          Only the <strong style="color:#fff;">public sale allocation</strong> — the tokens
-          and capital from the ICO tranche routed through Impossible Finance.<br><br>
-          Inside this scope: escrow, monthly release, airdrop, refund right.
-          The structure is fixed and audited.
-        </div>
-      </div>
-    </div>
-    <div>
-      <div class="card" style="border-left:3px solid var(--purple);">
-        <div class="card-title">What stays under your control</div>
-        <div class="card-body">
-          Every other allocation in your tokenomics:<br><br>
-          • Team and advisor vesting<br>
-          • Treasury and ecosystem funds<br>
-          • LP provisioning<br>
-          • Strategic partnerships<br>
-          • Future emissions and incentives<br><br>
-          No constraints outside the ICO tranche. Your treasury, your call.
-        </div>
-      </div>
-    </div>
+<!-- ── 7. BREATHING ─────────────────────────────────────────────────────── -->
+<div class="slide bg-dark">
+  <div class="chrome-top">
+    <span class="label-pill">Reset Point</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-  <div class="divider"></div>
-  <div class="highlight">
-    <p>
-      EPICO is a <strong>raise structure</strong>, not a full-stack governance system.
-      You commit to escrow on the public sale only — and keep complete control over
-      the rest of your tokenomics, your treasury, and your operations.
+  <svg class="burst" viewBox="0 0 720 720" aria-hidden="true">
+    <g transform="translate(360 360)">
+      <circle r="80" fill="#0e1729"/>
+    </g>
+    <g transform="translate(360 360)" fill="#3f75f5">
+      <rect x="-12" y="-340" width="24" height="220" rx="6"/>
+      <g transform="rotate(10)"><rect x="-10" y="-320" width="20" height="210" rx="6"/></g>
+      <g transform="rotate(20)"><rect x="-14" y="-340" width="28" height="230" rx="6"/></g>
+      <g transform="rotate(30)"><rect x="-10" y="-310" width="20" height="200" rx="6"/></g>
+      <g transform="rotate(40)"><rect x="-13" y="-330" width="26" height="220" rx="6"/></g>
+      <g transform="rotate(50)"><rect x="-11" y="-320" width="22" height="210" rx="6"/></g>
+      <g transform="rotate(60)"><rect x="-14" y="-340" width="28" height="230" rx="6"/></g>
+      <g transform="rotate(70)"><rect x="-10" y="-310" width="20" height="200" rx="6"/></g>
+      <g transform="rotate(80)"><rect x="-13" y="-330" width="26" height="220" rx="6"/></g>
+      <g transform="rotate(90)"><rect x="-12" y="-340" width="24" height="220" rx="6"/></g>
+      <g transform="rotate(100)"><rect x="-10" y="-320" width="20" height="210" rx="6"/></g>
+      <g transform="rotate(110)"><rect x="-14" y="-340" width="28" height="230" rx="6"/></g>
+      <g transform="rotate(120)"><rect x="-10" y="-310" width="20" height="200" rx="6"/></g>
+      <g transform="rotate(130)"><rect x="-13" y="-330" width="26" height="220" rx="6"/></g>
+      <g transform="rotate(140)"><rect x="-11" y="-320" width="22" height="210" rx="6"/></g>
+      <g transform="rotate(150)"><rect x="-14" y="-340" width="28" height="230" rx="6"/></g>
+      <g transform="rotate(160)"><rect x="-10" y="-310" width="20" height="200" rx="6"/></g>
+      <g transform="rotate(170)"><rect x="-13" y="-330" width="26" height="220" rx="6"/></g>
+    </g>
+  </svg>
+  <div class="body" style="max-width: 760px; position: relative; z-index: 2;">
+    <h1>The Structure<br>Is The Signal</h1>
+    <p class="lead" style="margin-top:32px;">
+      Where promises have failed, on-chain delivery doesn't. Every month you ship,
+      your tranche releases and the refund right decays in your favor. You compound
+      credibility on the calendar — not just at TGE.
     </p>
   </div>
 </div>
 
-<!-- ── 9. WHY IF ──────────────────────────────────────────────────────── -->
+<!-- ── 8. TGE PRICE DEFENSE ─────────────────────────────────────────────── -->
 <div class="slide">
-  <div class="label">Impossible Finance · Your Launch Partner</div>
-  <h2>Curated, operated, end-to-end</h2>
-  <div class="three-col">
-    <div class="card">
-      <div class="card-title">Curation</div>
-      <div class="card-body">
-        Every EPICO launch is selected by the same Impossible Finance curation
-        team that has shipped $450M+ across multiple cycles. Being curated is
-        the credibility marker your investors already trust.
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Escrow & ops</div>
-      <div class="card-body">
-        Impossible Finance operates the escrow contract, handles monthly
-        settlements, and manages investor flow. You focus on building — we
-        run the sale machinery.
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Distribution</div>
-      <div class="card-body">
-        Access to the existing Impossible Finance investor base — IDIA stakers,
-        whitelisted allocators, partner funds. A warm investor pool from day one,
-        not a cold launch.
-      </div>
-    </div>
+  <div class="chrome-top">
+    <span class="label-pill">TGE Price Defense</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
   </div>
-  <div class="divider"></div>
-  <div class="cards cards-2">
-    <div class="card">
-      <div class="card-title">5 years · $450M+ raised · multiple cycles</div>
-      <div class="card-body">
-        Impossible Finance has run curated launches since 2020 through every kind
-        of market. EPICO is the platform's newest format — built on top of the
-        existing rails, extended with funded escrow.
+  <div class="body">
+    <h2><span class="dark">Your Launch</span> <span class="blue">Holds — Not Crashes</span></h2>
+    <p class="subtitle">"EPICO turns ICO buyers from short-term traders into option-holders. Investors who'd have dumped at TGE now hold by choice."</p>
+    <div class="grid-2">
+      <div>
+        <h3 style="margin-bottom:14px; color:var(--red);">Standard ICO at TGE</h3>
+        <div class="barlist" style="margin-bottom:32px;">
+          <div style="border-left-color: var(--red);">
+            <p class="body-text">Every holder unlocked at the same moment with paper gains.</p>
+          </div>
+          <div style="border-left-color: var(--red);">
+            <p class="body-text">First sellers take the best price — racing to exit is rational.</p>
+          </div>
+          <div style="border-left-color: var(--red);">
+            <p class="body-text">Initial price collapse signals weakness, triggering more selling.</p>
+          </div>
+          <div style="border-left-color: var(--red);">
+            <p class="body-text">Your narrative becomes "another dump" in week one.</p>
+          </div>
+        </div>
+        <h3 style="margin-bottom:14px; color:var(--green);">EPICO at TGE</h3>
+        <div class="barlist">
+          <div style="border-left-color: var(--green);">
+            <p class="body-text">Claiming to sell forfeits the 100% refund right — real cost to dumping.</p>
+          </div>
+          <div style="border-left-color: var(--green);">
+            <p class="body-text">Rational investors hold the option rather than throw it away.</p>
+          </div>
+          <div style="border-left-color: var(--green);">
+            <p class="body-text">Reduced supply at launch supports your price — no cascade.</p>
+          </div>
+          <div style="border-left-color: var(--green);">
+            <p class="body-text">You enter price discovery from a position of strength.</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Public, on-chain, auditable</div>
-      <div class="card-body">
-        Every settlement — your tranche, the airdrop, refund payouts — is on-chain
-        and verifiable in real time. Your community can audit the structure
-        themselves. No black box pitch needed.
+      <div>
+        <div class="card" style="margin-bottom:18px;">
+          <h3>Engineered, Not Enforced</h3>
+          <p class="body-text">
+            Lockups suppress sell pressure by force — and create a known dump date
+            everyone front-runs. EPICO suppresses sell pressure through
+            <strong>rational incentive</strong>: investors don't dump because the option to
+            refund is worth more than the marginal upside of selling early.
+          </p>
+          <p class="body-text" style="margin-top:10px;">
+            Result: a launch that holds, instead of a launch that explodes and re-builds.
+          </p>
+        </div>
+        <div class="highlight">
+          <p>EPICO turns your ICO buyers from <strong>short-term traders</strong> into <strong>option-holders</strong>. The buyers who'd have dumped at TGE now hold by choice — and your launch price reflects that.</p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── 10. CTA ─────────────────────────────────────────────────────────── -->
-<div class="slide">
-  <div class="label">Next Steps · Impossible Finance</div>
-  <h1>Raise the capital you earn</h1>
-  <div class="accent-line"></div>
-  <p class="tagline">
-    EPICO is the structure investors will pay a premium to participate in —
-    and the structure no rug-puller can accept. If your roadmap is real, the
-    math is in your favour.
-  </p>
-  <div class="cards cards-2" style="margin-top:36px; max-width:780px;">
-    <div class="card">
-      <div class="card-title">Apply to launch</div>
-      <div class="card-body">
-        Bring your project to Impossible Finance. We'll walk you through
-        curation, escrow setup, tokenomics integration, and the launch calendar.
+<!-- ── 9. SCOPE ─────────────────────────────────────────────────────────── -->
+<div class="slide bg-tint">
+  <div class="chrome-top">
+    <span class="label-pill">Scope</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
+  </div>
+  <div class="body">
+    <h2><span class="dark">What EPICO Governs —</span> <span class="blue">And What Stays Yours</span></h2>
+    <p class="subtitle">"EPICO is a raise structure, not a full-stack governance system. You commit to escrow on the public sale only."</p>
+    <div class="grid-2" style="margin-top:12px;">
+      <div class="card card-accent-top">
+        <h3>What EPICO Governs</h3>
+        <p class="body-text">
+          Only the <strong>public sale allocation</strong> — the tokens and capital from
+          the ICO tranche routed through Impossible Finance.
+        </p>
+        <p class="body-text" style="margin-top:12px;">
+          Inside this scope: escrow, monthly release, airdrop, refund right. The
+          structure is fixed and audited.
+        </p>
       </div>
-      <div style="margin-top:12px;"><span class="pill pill-green">Project application</span></div>
+      <div class="card card-accent-top purple">
+        <h3>What Stays Under Your Control</h3>
+        <p class="body-text">Every other allocation in your tokenomics:</p>
+        <p class="body-text" style="margin-top:8px;">• Team and advisor vesting</p>
+        <p class="body-text">• Treasury and ecosystem funds</p>
+        <p class="body-text">• LP provisioning</p>
+        <p class="body-text">• Strategic partnerships</p>
+        <p class="body-text">• Future emissions and incentives</p>
+        <p class="body-text" style="margin-top:8px;">No constraints outside the ICO tranche. Your treasury, your call.</p>
+      </div>
     </div>
-    <div class="card">
-      <div class="card-title">Talk to the team</div>
-      <div class="card-body">
-        Have questions on fit, terms, or how EPICO interacts with your existing
-        tokenomics? Direct line to the launchpad team.
-      </div>
-      <div style="margin-top:12px;"><span class="pill pill-purple">impossible.finance</span></div>
+    <div class="highlight">
+      <p>EPICO is a <strong>raise structure</strong>, not a full-stack governance system. You commit to escrow on the public sale only — and keep complete control over the rest of your tokenomics, your treasury, and your operations.</p>
     </div>
   </div>
-  <div class="footnote" style="margin-top:28px;">
-    This document is for informational purposes only. Nothing herein constitutes an offer of securities, investment advice, or a solicitation to invest.
+</div>
+
+<!-- ── 10. WHY IF ──────────────────────────────────────────────────────── -->
+<div class="slide">
+  <div class="chrome-top">
+    <span class="label-pill">Why Impossible Finance</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
+  </div>
+  <div class="body">
+    <h2><span class="dark">Curated, Operated,</span> <span class="blue">End-To-End</span></h2>
+    <p class="subtitle">"Five years of curated launches, $450M+ raised, an existing investor base — you get the rails, the buyers, and the credibility marker."</p>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Curation</h3>
+        <p class="body-text">
+          Every EPICO launch is selected by the same Impossible Finance curation
+          team that has shipped $450M+ across multiple cycles. Being curated is
+          the credibility marker your investors already trust.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Escrow &amp; Ops</h3>
+        <p class="body-text">
+          Impossible Finance operates the escrow contract, handles monthly
+          settlements, and manages investor flow. You focus on building — we run
+          the sale machinery.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Distribution</h3>
+        <p class="body-text">
+          Access to the existing Impossible Finance investor base — IDIA stakers,
+          whitelisted allocators, partner funds. A warm investor pool from day one,
+          not a cold launch.
+        </p>
+      </div>
+    </div>
+    <div class="stats" style="margin-top:48px; grid-template-columns: repeat(4, 1fr);">
+      <div class="stat">
+        <div class="stat-num">$450M+</div>
+        <div class="stat-label">Raised on platform</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5 yrs</div>
+        <div class="stat-label">Track record</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100k</div>
+        <div class="stat-label">KYC'd users</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">On-chain</div>
+        <div class="stat-label">Auditable settlements</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 11. CTA / THANK YOU ──────────────────────────────────────────────── -->
+<div class="slide bg-blue closer">
+  <div class="cover-pattern"></div>
+  <div class="chrome-top">
+    <span class="label-pill">Next Steps</span>
+    <span class="logo-mark">
+      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
+      IMPOSSIBLE
+    </span>
+  </div>
+  <div class="body" style="position: relative; z-index: 2;">
+    <div class="cover-eyebrow">EPICO Raise · For Projects</div>
+    <h1>Raise The<br>Capital You<br>Earn.</h1>
+    <div class="accent" style="background: var(--white);"></div>
+    <p class="tagline">
+      EPICO is the structure investors pay a premium to participate in — and the
+      structure no rug-puller can accept. If your roadmap is real, the math is in
+      your favour. Talk to the team about your launch.
+    </p>
+    <div class="contacts">
+      <div class="contact-row"><span class="dot"></span>impossible.finance</div>
+      <div class="contact-row"><span class="dot"></span>x.com/ImpossibleFi</div>
+      <div class="contact-row"><span class="dot"></span>t.me/ImpossibleFinance</div>
+    </div>
+    <p class="footnote" style="margin-top:64px;">For informational purposes only. Nothing herein constitutes an offer of securities, investment advice, or a solicitation to invest.</p>
   </div>
 </div>
 
