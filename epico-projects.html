@@ -86,21 +86,14 @@
   .bg-dark .label-pill { background: transparent; border: 1px solid rgba(255,255,255,0.4); }
 
   .logo-mark {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-family: var(--font-heading);
-    font-size: 14px;
-    letter-spacing: .06em;
-    color: var(--neutral-950);
-    text-transform: uppercase;
+    display: inline-flex; align-items: center;
+    color: var(--brand-blue);
   }
   .bg-blue .logo-mark, .bg-dark .logo-mark { color: var(--white); }
-  .logo-icon svg { display: block; width: 28px; height: 28px; }
-  .logo-icon .logo-bg    { fill: var(--neutral-950); }
-  .logo-icon .logo-slash { stroke: var(--white); }
-  .bg-blue .logo-icon .logo-bg    { fill: var(--white); }
-  .bg-blue .logo-icon .logo-slash { stroke: var(--brand-blue); }
-  .bg-dark .logo-icon .logo-bg    { fill: var(--white); }
-  .bg-dark .logo-icon .logo-slash { stroke: var(--neutral-900); }
+  .brand-logo { display: block; height: 24px; width: auto; }
+  .brand-logo.lg { height: 32px; }
+  .brand-icon { display: block; height: 28px; width: 28px; color: var(--brand-blue); }
+  .bg-blue .brand-icon, .bg-dark .brand-icon { color: var(--white); }
 
   .body {
     flex: 1;
@@ -454,8 +447,7 @@
     .cover { padding: 96px 24px; }
     .chrome-top { top: 24px; left: 24px; right: 24px; }
     .label-pill { height: 30px; font-size: 10px; padding: 0 16px; }
-    .logo-mark { font-size: 12px; gap: 8px; }
-    .logo-icon svg { width: 22px; height: 22px; }
+    .brand-logo { height: 20px; }
     h1 { font-size: 44px; }
     h2 { font-size: 30px; }
     .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 18px; }
@@ -477,10 +469,14 @@
 <div id="progress"></div>
 <div id="deck">
 
-<svg width="0" height="0" style="position:absolute;">
-  <symbol id="if-logo" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="46" class="logo-bg"/>
-    <path d="M 28 72 L 72 28" class="logo-slash" stroke-width="9" stroke-linecap="round" fill="none"/>
+<!-- Brand assets: official IMPOSSIBLE logo + icon (from /assets), fills use currentColor -->
+<svg width="0" height="0" style="position:absolute;" aria-hidden="true">
+  <symbol id="if-logo" viewBox="0 0 381 99">
+    <path d="M69.4373 19.0651L53.4518 58.2945C53.1826 58.9556 52.4754 59.3251 51.7794 59.1706L49.5908 58.6832C48.7068 58.4857 48.213 57.5427 48.5555 56.7033L54.4872 42.1466C54.6432 41.6958 55.1609 40.4693 53.2384 39.7621C51.9721 39.2556 51.8606 38.6217 52.2031 37.7823L61.5051 14.9508C57.6059 13.5109 53.3929 12.7241 48.9935 12.7241C29.0451 12.7241 12.8732 28.8959 12.8732 48.8444C12.8732 61.2046 19.082 72.1122 28.5513 78.6253L44.5368 39.3958C44.806 38.7348 45.5132 38.3652 46.2093 38.5197L48.3978 39.0071C49.2818 39.2046 49.7756 40.1476 49.4331 40.987L43.5015 55.5438C43.3454 55.9945 42.8277 57.221 44.7503 57.9282C46.0166 58.4347 46.1281 59.0687 45.7856 59.9081L36.4835 82.7379C40.3812 84.1778 44.5958 84.9647 48.9951 84.9647C68.9436 84.9647 85.1154 68.7928 85.1154 48.8444C85.1154 36.4841 78.9066 25.5765 69.4373 19.0635V19.0651Z" fill="currentColor"/>
+    <path d="M199.525 36.1508C209.481 36.151 215.923 41.2709 215.924 49.1391C215.924 57.0419 209.516 62.1966 199.525 62.1967C189.5 62.1967 183.092 57.042 183.092 49.1391C183.092 41.2364 189.535 36.1508 199.525 36.1508ZM231.657 36.1508C241.027 36.1509 245.816 39.0031 245.988 44.7065H240.476C240.476 41.3739 237.306 40.3432 231.347 40.3432C225.697 40.3432 223.733 41.2023 223.733 43.2983C223.733 46.047 226.524 46.4248 232.931 46.8715C241.889 47.5244 247.021 48.1777 247.021 54.3969C247.021 60.341 241.785 62.1967 233 62.1967C223.078 62.1967 217.773 59.963 217.566 53.2631H223.113C223.113 56.5958 225.973 58.0043 232.931 58.0043C239.201 58.0043 241.509 57.0424 241.51 54.5688C241.51 51.6481 238.443 51.5448 231.381 51.0981C221.769 50.5139 218.221 48.4522 218.221 43.2983C218.221 38.3504 223.044 36.1508 231.657 36.1508ZM262.568 36.1508C271.938 36.1508 276.727 39.003 276.899 44.7065H271.388C271.387 41.3739 268.217 40.3432 262.258 40.3432C256.608 40.3432 254.644 41.2023 254.644 43.2983C254.644 46.047 257.435 46.4248 263.843 46.8715C272.8 47.5244 277.933 48.1777 277.933 54.3969C277.933 60.341 272.697 62.1967 263.912 62.1967C253.99 62.1967 248.684 59.9631 248.477 53.2631H254.024C254.024 56.5958 256.884 58.0043 263.843 58.0043C270.112 58.0043 272.421 57.0425 272.421 54.5688C272.421 51.6482 269.355 51.5448 262.293 51.0981C252.681 50.514 249.133 48.4523 249.133 43.2983C249.133 38.3504 253.956 36.1508 262.568 36.1508ZM108.624 61.5092H103.284V36.77H108.624V61.5092ZM131.033 55.6332L141.472 36.77H149.637V61.5092H144.297V41.8549L133.514 61.5092H128.518L117.735 41.7866V61.5092H112.395V36.77H120.559L131.033 55.6332ZM171.417 36.77C177.411 36.77 181.167 40.1713 181.167 45.7377C181.167 51.2354 177.343 54.6371 171.383 54.6371H158.739V61.5092H153.399V36.77H171.417ZM285.783 61.5092H280.443V36.77H285.783V61.5092ZM308.089 36.77C314.014 36.77 316.184 39.3469 316.184 42.9203C316.184 45.7378 314.531 47.6624 311.981 48.6245C315.082 49.3804 317.598 51.0985 317.598 54.7407C317.597 58.8293 315.047 61.5092 309.604 61.5092H289.555V36.77H308.089ZM324.965 56.9741H342.948V61.5092H319.625V36.77H324.965V56.9741ZM369.375 40.8588H350.392V47.0776H368.685V50.892H350.392V57.3862H369.375V61.5092H345.053V36.77H369.375V40.8588ZM199.525 40.6528C192.773 40.6528 188.639 44.0883 188.639 49.1391C188.639 54.2245 192.807 57.6606 199.525 57.6606C206.208 57.6604 210.411 54.19 210.411 49.1391C210.411 44.0884 206.243 40.6529 199.525 40.6528ZM294.894 57.4545H307.917C310.466 57.4544 312.016 56.6297 312.016 54.1215C312.016 51.4761 310.018 50.9946 307.917 50.9946H294.894V57.4545ZM158.739 50.2045H170.315C173.622 50.2044 175.689 48.9331 175.689 45.7377C175.689 42.4737 173.588 41.2369 170.315 41.2368H158.739V50.2045ZM294.894 47.1469H306.538C308.846 47.1469 310.844 46.6312 310.845 44.02C310.845 41.6147 309.294 40.8246 306.538 40.8246H294.894V47.1469Z" fill="currentColor"/>
+  </symbol>
+  <symbol id="if-icon" viewBox="0 0 122 122">
+    <path d="M86.062 23.233L65.9956 72.4772C65.6577 73.307 64.7699 73.7709 63.8962 73.5769L61.149 72.9651C60.0393 72.7171 59.4194 71.5335 59.8493 70.4798L67.2952 52.2069C67.4912 51.641 68.141 50.1015 65.7277 49.2137C64.1381 48.5779 63.9982 47.7821 64.428 46.7284L76.1048 18.0684C71.2101 16.2609 65.9216 15.2732 60.3992 15.2732C35.3582 15.2732 15.0579 35.5735 15.0579 60.6145C15.0579 76.1302 22.8517 89.8224 34.7384 97.9981L54.8047 48.7539C55.1426 47.9241 56.0304 47.4602 56.9041 47.6542L59.6514 48.266C60.7611 48.5139 61.3809 49.6976 60.951 50.7513L53.5051 69.0242C53.3092 69.59 52.6593 71.1296 55.0727 72.0173C56.6622 72.6532 56.8022 73.4489 56.3723 74.5026L44.6956 103.161C49.5882 104.968 54.8787 105.956 60.4012 105.956C85.4422 105.956 105.742 85.6555 105.742 60.6145C105.742 45.0989 97.9487 31.4067 86.062 23.231V23.233Z" fill="currentColor"/>
   </symbol>
 </svg>
 
@@ -490,8 +486,7 @@
   <div class="chrome-top">
     <span class="label-pill">For Projects</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -517,8 +512,7 @@
   <div class="chrome-top">
     <span class="label-pill">The Problem</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -567,8 +561,7 @@
   <div class="chrome-top">
     <span class="label-pill">The Solution</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -619,8 +612,7 @@
   <div class="chrome-top">
     <span class="label-pill">How It Works</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -672,8 +664,7 @@
   <div class="chrome-top">
     <span class="label-pill">Monthly Cycle</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -747,8 +738,7 @@
   <div class="chrome-top">
     <span class="label-pill">Raise Quality</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -791,8 +781,7 @@
   <div class="chrome-top">
     <span class="label-pill">Reset Point</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <svg class="burst" viewBox="0 0 720 720" aria-hidden="true">
@@ -835,8 +824,7 @@
   <div class="chrome-top">
     <span class="label-pill">TGE Price Defense</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -901,8 +889,7 @@
   <div class="chrome-top">
     <span class="label-pill">Scope</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -942,8 +929,7 @@
   <div class="chrome-top">
     <span class="label-pill">Why Impossible Finance</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body">
@@ -1002,8 +988,7 @@
   <div class="chrome-top">
     <span class="label-pill">Next Steps</span>
     <span class="logo-mark">
-      <span class="logo-icon"><svg><use href="#if-logo"/></svg></span>
-      IMPOSSIBLE
+      <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
   <div class="body" style="position: relative; z-index: 2;">
