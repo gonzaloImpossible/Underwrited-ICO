@@ -184,6 +184,14 @@
   .card.dark  { background: var(--neutral-900); border-color: transparent; color: var(--white); }
   .card.dark h3, .card.dark p { color: var(--white); }
   .card .body-text { font-size: 14px; line-height: 1.6; color: var(--neutral-600); margin-top: 12px; }
+  .card > .num {
+    font-family: var(--font-heading);
+    font-size: 56px; line-height: 1;
+    letter-spacing: -.04em;
+    color: var(--neutral-950);
+    margin-bottom: 12px;
+  }
+  .card > .num.blue { color: var(--brand-blue); }
 
   .card-accent-top { border-top: 5px solid var(--brand-blue); }
   .card-accent-top.amber  { border-top-color: var(--amber); }
@@ -483,10 +491,11 @@
     display: grid;
     grid-template-columns: 1fr 88px 1fr;
     gap: 24px;
-    padding: 56px 80px 64px;
-    align-items: center;
+    padding: 72px 80px 64px;
+    align-items: start;
   }
-  .diag-col { display: flex; flex-direction: column; justify-content: center; max-width: 480px; }
+  .diag-col { display: flex; flex-direction: column; max-width: 480px; }
+  .diag-vs { align-self: center; }
   .diag-col.left  { justify-self: end; padding-right: 16px; }
   .diag-col.right { justify-self: start; padding-left: 48px; color: var(--white); }
   .diag-col.right .diag-bullets li { color: rgba(255,255,255,0.92); }
