@@ -221,8 +221,17 @@
     margin-bottom: 22px;
   }
   .cover h1 {
-    font-size: clamp(60px, 8vw, 128px);
+    font-size: clamp(72px, 9vw, 144px);
     line-height: 0.96;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-family: var(--font-heading);
+    font-size: clamp(22px, 2.4vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -.015em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.92);
     margin-bottom: 28px;
   }
   .cover .accent { width: 88px; height: 6px; background: var(--white); border-radius: 3px; margin-bottom: 28px; }
@@ -490,13 +499,14 @@
     </span>
   </div>
   <div class="body">
-    <div class="cover-eyebrow">Impossible Finance · EPICO Raise</div>
-    <h1>Raise<br>The Capital<br>You Earn</h1>
+    <div class="cover-eyebrow">Impossible Finance · For Projects</div>
+    <h1>EPICO Raise</h1>
+    <div class="cover-subtitle">Escrow-Protected ICO</div>
     <div class="accent"></div>
     <p class="tagline">
-      Use the strongest credibility signal available to a launching team. Attract
-      capital that won't touch an unprotected ICO, defend your TGE price, and
-      compound trust on-chain — month by month.
+      Raise the capital you earn. Use the strongest credibility signal available
+      to a launching team — attract capital that won't touch an unprotected ICO,
+      defend your TGE price, and compound trust on-chain, month by month.
     </p>
     <div class="cover-pills">
       <span class="pill">Larger raises</span>
@@ -616,43 +626,45 @@
     </span>
   </div>
   <div class="body">
-    <h2><span class="dark">Capital,</span> <span class="blue">Delivered Monthly</span></h2>
-    <p class="subtitle">"At TGE, funds enter escrow and tokens enter the protected pool. Every month, you receive capital and your investors receive tokens."</p>
-    <div class="grid-2">
-      <div>
-        <div class="card card-accent-top" style="margin-bottom:18px;">
-          <h3>At ICO Close / TGE</h3>
-          <p class="body-text">
-            Investor funds enter Impossible Finance escrow. Your tokens are minted
-            per your tokenomics and the public sale allocation enters the protected
-            pool. <strong>You receive nothing yet.</strong> Investors can claim their tokens
-            immediately — but doing so waives their refund right.
-          </p>
+    <h2><span class="dark">Capital In Escrow,</span> <span class="blue">Delivered As Trust Is Earned</span></h2>
+    <p class="subtitle">"Raised funds sit in Impossible Finance escrow — fully backing every refund right. You receive 10% each month, as the calendar passes and investors stay."</p>
+    <div class="two-col-57" style="margin-top:12px;">
+      <div class="barlist">
+        <div>
+          <h3>At TGE — Funds Enter Escrow</h3>
+          <p class="body-text">Investor funds land in Impossible Finance escrow on day one — never in your treasury. Your tokens are minted and the public-sale allocation enters the protected pool. You receive nothing yet.</p>
         </div>
-        <div class="card card-accent-top">
-          <h3>Every Month (1–10)</h3>
-          <p class="body-text"><strong>① Team tranche</strong> — you receive 10% of every non-refunded investor's deposit.</p>
-          <p class="body-text" style="margin-top:6px;"><strong>② Airdrop</strong> — holders receive 10% of their tokens automatically.</p>
-          <p class="body-text" style="margin-top:6px;"><strong>③ Refund window</strong> — any investor who opted out receives their protected balance.</p>
+        <div>
+          <h3>Each Month — 10% Streams To You</h3>
+          <p class="body-text">10% of every non-refunded deposit transfers from escrow to you. Investors receive 10% of their tokens. Their refund right ticks down 10%. Three settlements, on-chain, every month.</p>
+        </div>
+        <div>
+          <h3>Refunds Are Funded — Never On You</h3>
+          <p class="body-text">If an investor refunds, they're paid from escrow — not your treasury. You can't be drained, sued, or chased. Your only exposure is the capital you would have received from that investor.</p>
         </div>
       </div>
       <div>
-        <div class="card card-accent-top amber" style="margin-bottom:18px;">
-          <h3>Refunds Are Funded — Never On You</h3>
-          <p class="body-text">
-            Refunds come from escrow, not from your treasury. You can't be drained,
-            sued, or chased. The escrow contract is structurally solvent for every
-            possible refund scenario. Your only exposure is the capital you would
-            have received from that investor — never more.
-          </p>
-        </div>
-        <div class="card card-accent-top purple">
-          <h3>Month 10 — Fully Settled</h3>
-          <p class="body-text">
-            All tokens delivered to holders. Escrow at zero. You've received the
-            full residual raise from every investor who chose to stay. Refund right
-            expired naturally — by design.
-          </p>
+        <div class="card">
+          <h3>Capital Follows Execution</h3>
+          <p class="body-text" style="margin-top:12px;">At every moment, the escrow holds at least the total outstanding refund rights. As the calendar passes and investors hold, escrow drains in your favor.</p>
+          <p style="margin-top:14px; font-weight:700; color: var(--brand-blue-ink); font-size: 14px;">Escrow balance = Outstanding refund rights — at every block</p>
+          <table style="margin-top: 20px; box-shadow: none;">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Escrow Holds</th>
+                <th>You Received</th>
+                <th>Refund Right</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>TGE</td><td class="num">$10M</td><td class="dim">$0</td><td class="num">$10M</td></tr>
+              <tr><td>M3</td><td class="num">$7M</td><td class="num">$3M</td><td class="num">$7M</td></tr>
+              <tr><td>M6</td><td class="num">$4M</td><td class="num">$6M</td><td class="num">$4M</td></tr>
+              <tr><td>M10</td><td class="dim">$0</td><td class="pos">$10M</td><td class="dim">$0</td></tr>
+            </tbody>
+          </table>
+          <p class="footnote">Trajectory for a $10M raise assuming all investors hold. Refunds drain escrow proportionally — and only ever from escrow.</p>
         </div>
       </div>
     </div>
