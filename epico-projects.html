@@ -8,6 +8,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
+  /* Self-hosted PP Monument Extended Black (drop the file at assets/PPMonumentExtended-Black.{woff2,woff,otf} and it'll pick up automatically) */
+  @font-face {
+    font-family: 'PP Monument Extended Black';
+    src: local('PP Monument Extended Black'),
+         url('assets/PPMonumentExtended-Black.woff2') format('woff2'),
+         url('assets/PPMonumentExtended-Black.woff')  format('woff'),
+         url('assets/PPMonumentExtended-Black.otf')   format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
   :root {
     --brand-blue:       #3f75f5;
     --brand-blue-soft:  #eef2fe;
@@ -29,7 +41,7 @@
     --amber-soft:       #fef3c7;
     --purple:           #7c3aed;
     --purple-soft:      #ede9fe;
-    --font-heading:     'Archivo Black', 'PP Monument Extended Black', system-ui, sans-serif;
+    --font-heading:     'PP Monument Extended Black', 'Archivo Black', system-ui, sans-serif;
     --font-body:        'Roboto', system-ui, sans-serif;
     --radius-full:      999px;
     --radius-xl:        24px;
@@ -90,8 +102,8 @@
     color: var(--brand-blue);
   }
   .bg-blue .logo-mark, .bg-dark .logo-mark { color: var(--white); }
-  .brand-logo { display: block; height: 24px; width: auto; }
-  .brand-logo.lg { height: 32px; }
+  .brand-logo { display: block; height: 36px; width: auto; }
+  .brand-logo.lg { height: 44px; }
   .brand-icon { display: block; height: 28px; width: 28px; color: var(--brand-blue); }
   .bg-blue .brand-icon, .bg-dark .brand-icon { color: var(--white); }
 
@@ -311,22 +323,20 @@
     display: flex; align-items: center; justify-content: center;
     color: var(--neutral-400); font-size: 24px;
   }
-  .cycle-num {
-    font-family: var(--font-heading);
-    font-size: 12px;
-    letter-spacing: .12em;
+  .cycle-step h3 {
+    font-size: 14px;
     color: var(--neutral-400);
-    text-transform: uppercase;
-    margin-bottom: 14px;
+    letter-spacing: .12em;
+    margin-bottom: 12px;
   }
-  .cycle-step h3 { margin-bottom: 8px; }
-  .cycle-step .body-text { font-size: 14px; line-height: 1.55; color: var(--neutral-600); margin-top: 0; }
+  .cycle-step .body-text { font-size: 14px; line-height: 1.55; color: var(--neutral-600); margin-top: 14px; }
   .cycle-value {
     font-family: var(--font-heading);
-    font-size: 28px;
+    font-size: clamp(36px, 3.6vw, 52px);
+    line-height: 1.0;
     color: var(--neutral-950);
-    margin-bottom: 12px;
-    letter-spacing: -.02em;
+    letter-spacing: -.03em;
+    text-transform: uppercase;
   }
   .cycle-step.airdrop .cycle-value { color: var(--green); }
   .cycle-step.team    .cycle-value { color: var(--amber); }
@@ -443,6 +453,113 @@
     background: var(--white);
   }
 
+  /* Diagonal split (vs comparison) */
+  .slide.diag-slide { padding: 0; }
+  .diag-slide .diag-header {
+    background: var(--white);
+    padding: 96px 80px 24px;
+    position: relative;
+    z-index: 3;
+  }
+  .diag-slide .diag-body {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+  }
+  .diag-bg-left {
+    position: absolute; inset: 0;
+    background: var(--neutral-50);
+    z-index: 1;
+  }
+  .diag-bg-right {
+    position: absolute; inset: 0;
+    background: var(--brand-blue);
+    clip-path: polygon(58% 0, 100% 0, 100% 100%, 42% 100%);
+    z-index: 1;
+  }
+  .diag-content {
+    position: relative; z-index: 2;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 88px 1fr;
+    gap: 24px;
+    padding: 56px 80px 64px;
+    align-items: center;
+  }
+  .diag-col { display: flex; flex-direction: column; justify-content: center; max-width: 480px; }
+  .diag-col.left  { justify-self: end; padding-right: 16px; }
+  .diag-col.right { justify-self: start; padding-left: 48px; color: var(--white); }
+  .diag-col.right .diag-bullets li { color: rgba(255,255,255,0.92); }
+  .diag-section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(30px, 3.4vw, 56px);
+    text-transform: uppercase;
+    letter-spacing: -.02em;
+    color: var(--neutral-950);
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+  .diag-col.right .diag-section-title { color: var(--white); }
+  .diag-vs {
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-heading);
+    font-size: clamp(32px, 4vw, 56px);
+    color: var(--neutral-950);
+    letter-spacing: -.02em;
+    text-transform: uppercase;
+    align-self: center;
+  }
+  .diag-bullets { list-style: none; display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; }
+  .diag-bullets li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 14.5px; line-height: 1.55; color: var(--neutral-800);
+  }
+  .diag-bullets li::before {
+    content: '';
+    flex-shrink: 0; width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--neutral-950);
+    margin-top: 9px;
+  }
+  .diag-col.right .diag-bullets li::before { background: var(--white); }
+  .diag-callout {
+    margin-top: 22px; padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.4);
+  }
+  .diag-callout h3 { color: var(--white); margin-bottom: 8px; }
+  .diag-callout p { color: rgba(255,255,255,0.92); font-size: 14px; line-height: 1.55; }
+
+  /* Vertical 50/50 split (Scope slide) */
+  .slide.split-vert { padding: 0; flex-direction: row; }
+  .split-vert .split-panel {
+    flex: 1;
+    padding: 96px 64px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .split-vert .split-blue  { background: var(--brand-blue); color: var(--white); }
+  .split-vert .split-white { background: var(--white); }
+  .split-vert .split-blue h2,
+  .split-vert .split-blue h3 { color: var(--white); }
+  .split-vert .split-blue .subtitle { color: rgba(255,255,255,0.85); }
+  .split-vert .split-blue p { color: rgba(255,255,255,0.92); }
+  .split-list {
+    list-style: none; display: flex; flex-direction: column; gap: 14px;
+    margin-top: 20px; padding: 0;
+  }
+  .split-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+    font-size: 16px; color: var(--neutral-800); line-height: 1.5;
+  }
+  .split-list li::before {
+    content: '';
+    flex-shrink: 0; width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--brand-blue);
+    margin-top: 8px;
+  }
+
   @media (max-width: 900px) {
     body { height: auto; overflow-y: auto; overflow-x: hidden; }
     #deck { height: auto; overflow: visible; }
@@ -456,11 +573,19 @@
     .cover { padding: 96px 24px; }
     .chrome-top { top: 24px; left: 24px; right: 24px; }
     .label-pill { height: 30px; font-size: 10px; padding: 0 16px; }
-    .brand-logo { height: 20px; }
+    .brand-logo { height: 28px; }
     h1 { font-size: 44px; }
     h2 { font-size: 30px; }
     .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 18px; }
     .grid-2, .two-col-57 { grid-template-columns: 1fr; gap: 24px; }
+    .slide.diag-slide { padding: 0; }
+    .diag-slide .diag-header { padding: 100px 24px 16px; }
+    .diag-bg-right { clip-path: polygon(0 55%, 100% 40%, 100% 100%, 0 100%); }
+    .diag-content { grid-template-columns: 1fr; padding: 24px 24px 56px; gap: 24px; height: auto; }
+    .diag-vs { display: none; }
+    .diag-col.left, .diag-col.right { justify-self: stretch; max-width: none; padding: 0; }
+    .slide.split-vert { padding: 0; flex-direction: column; min-height: 100vh; }
+    .split-vert .split-panel { padding: 64px 24px; }
     .cycle { grid-template-columns: 1fr; gap: 14px; }
     .cycle-arrow { transform: rotate(90deg); height: 28px; }
     .stats { grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -684,7 +809,7 @@
     <p class="subtitle">"Airdrop, capital release, and refund window — for 10 months. Each step compounds your credibility."</p>
     <div class="cycle">
       <div class="cycle-step airdrop">
-        <div class="cycle-num">01 · Airdrop</div>
+        <h3>Airdrop</h3>
         <div class="cycle-value">10% Tokens</div>
         <p class="body-text">
           Holders receive 10% of their purchased tokens automatically. Their
@@ -693,7 +818,7 @@
       </div>
       <div class="cycle-arrow">→</div>
       <div class="cycle-step team">
-        <div class="cycle-num">02 · Your Tranche</div>
+        <h3>Your Tranche</h3>
         <div class="cycle-value">+10% Capital</div>
         <p class="body-text">
           You receive 10% of every non-refunded investor's deposit from escrow.
@@ -702,7 +827,7 @@
       </div>
       <div class="cycle-arrow">→</div>
       <div class="cycle-step refund">
-        <div class="cycle-num">03 · Refund Window</div>
+        <h3>Refund Window</h3>
         <div class="cycle-value">Funded Exit</div>
         <p class="body-text">
           Any investor who opts out is paid from escrow — never your treasury.
@@ -832,67 +957,44 @@
 </div>
 
 <!-- ── 8. TGE PRICE DEFENSE ─────────────────────────────────────────────── -->
-<div class="slide">
+<div class="slide diag-slide">
   <div class="chrome-top">
     <span class="label-pill">TGE Price Defense</span>
     <span class="logo-mark">
       <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
-  <div class="body">
+  <div class="diag-header">
     <h2><span class="dark">Your Launch</span> <span class="blue">Holds — Not Crashes</span></h2>
     <p class="subtitle">"EPICO turns ICO buyers from short-term traders into option-holders. Investors who'd have dumped at TGE now hold by choice."</p>
-    <div class="grid-2">
-      <div>
-        <h3 style="margin-bottom:14px; color:var(--red);">Standard ICO at TGE</h3>
-        <div class="barlist" style="margin-bottom:32px;">
-          <div style="border-left-color: var(--red);">
-            <p class="body-text">Every holder unlocked at the same moment with paper gains.</p>
-          </div>
-          <div style="border-left-color: var(--red);">
-            <p class="body-text">First sellers take the best price — racing to exit is rational.</p>
-          </div>
-          <div style="border-left-color: var(--red);">
-            <p class="body-text">Initial price collapse signals weakness, triggering more selling.</p>
-          </div>
-          <div style="border-left-color: var(--red);">
-            <p class="body-text">Your narrative becomes "another dump" in week one.</p>
-          </div>
-        </div>
-        <h3 style="margin-bottom:14px; color:var(--green);">EPICO at TGE</h3>
-        <div class="barlist">
-          <div style="border-left-color: var(--green);">
-            <p class="body-text">Claiming to sell forfeits the 100% refund right — real cost to dumping.</p>
-          </div>
-          <div style="border-left-color: var(--green);">
-            <p class="body-text">Rational investors hold the option rather than throw it away.</p>
-          </div>
-          <div style="border-left-color: var(--green);">
-            <p class="body-text"><strong>No rational sell pressure below ICO price</strong> — refunding is always worth more than selling at a discount, so the refund right acts as a hard price floor.</p>
-          </div>
-          <div style="border-left-color: var(--green);">
-            <p class="body-text">Reduced supply at launch supports your price — no cascade.</p>
-          </div>
-          <div style="border-left-color: var(--green);">
-            <p class="body-text">You enter price discovery from a position of strength.</p>
-          </div>
-        </div>
+  </div>
+  <div class="diag-body">
+    <div class="diag-bg-left"></div>
+    <div class="diag-bg-right"></div>
+    <div class="diag-content">
+      <div class="diag-col left">
+        <div class="diag-section-title">Standard ICO</div>
+        <ul class="diag-bullets">
+          <li>Every holder unlocked at the same moment, sitting on paper gains.</li>
+          <li>First sellers get the best price — racing to exit is rational.</li>
+          <li>Initial price collapse signals weakness, triggering more selling.</li>
+          <li>Your narrative becomes "another dump" in week one.</li>
+        </ul>
       </div>
-      <div>
-        <div class="card" style="margin-bottom:18px;">
+      <div class="diag-vs">VS.</div>
+      <div class="diag-col right">
+        <span class="pill" style="background: var(--neutral-950); color: var(--white); margin-bottom: 14px;">Escrow-Protected</span>
+        <div class="diag-section-title">EPICO Raise</div>
+        <ul class="diag-bullets">
+          <li>Claiming to sell forfeits the 100% refund right — real cost to dumping.</li>
+          <li>Rational investors hold the option rather than throw it away.</li>
+          <li><strong>No rational sell pressure below ICO price</strong> — refund always beats selling at a discount. Hard price floor.</li>
+          <li>Reduced supply at launch supports price — no cascade.</li>
+          <li>You enter price discovery from a position of strength.</li>
+        </ul>
+        <div class="diag-callout">
           <h3>Engineered, Not Enforced</h3>
-          <p class="body-text">
-            Lockups suppress sell pressure by force — and create a known dump date
-            everyone front-runs. EPICO suppresses sell pressure through
-            <strong>rational incentive</strong>: investors don't dump because the option to
-            refund is worth more than the marginal upside of selling early.
-          </p>
-          <p class="body-text" style="margin-top:10px;">
-            Result: a launch that holds, instead of a launch that explodes and re-builds.
-          </p>
-        </div>
-        <div class="highlight">
-          <p>EPICO turns your ICO buyers from <strong>short-term traders</strong> into <strong>option-holders</strong>. The buyers who'd have dumped at TGE now hold by choice — and your launch price reflects that.</p>
+          <p>Lockups suppress selling by force — and create a known dump date everyone front-runs. EPICO suppresses it through rational incentive: refund is worth more than the marginal upside of selling early.</p>
         </div>
       </div>
     </div>
@@ -900,42 +1002,41 @@
 </div>
 
 <!-- ── 9. SCOPE ─────────────────────────────────────────────────────────── -->
-<div class="slide bg-tint">
+<div class="slide split-vert">
   <div class="chrome-top">
-    <span class="label-pill">Scope</span>
+    <span class="label-pill" style="background: var(--neutral-950); color: var(--white);">Scope</span>
     <span class="logo-mark">
       <svg class="brand-logo" viewBox="0 0 381 99" aria-label="IMPOSSIBLE"><use href="#if-logo"/></svg>
     </span>
   </div>
-  <div class="body">
-    <h2><span class="dark">What EPICO Governs —</span> <span class="blue">And What Stays Yours</span></h2>
-    <p class="subtitle">"EPICO is a raise structure, not a full-stack governance system. You commit to escrow on the public sale only."</p>
-    <div class="grid-2" style="margin-top:12px;">
-      <div class="card card-accent-top">
-        <h3>What EPICO Governs</h3>
-        <p class="body-text">
-          Only the <strong>public sale allocation</strong> — the tokens and capital from
-          the ICO tranche routed through Impossible Finance.
-        </p>
-        <p class="body-text" style="margin-top:12px;">
-          Inside this scope: escrow, monthly release, airdrop, refund right. The
-          structure is fixed and audited.
-        </p>
-      </div>
-      <div class="card card-accent-top purple">
-        <h3>What Stays Under Your Control</h3>
-        <p class="body-text">Every other allocation in your tokenomics:</p>
-        <p class="body-text" style="margin-top:8px;">• Team and advisor vesting</p>
-        <p class="body-text">• Treasury and ecosystem funds</p>
-        <p class="body-text">• LP provisioning</p>
-        <p class="body-text">• Strategic partnerships</p>
-        <p class="body-text">• Future emissions and incentives</p>
-        <p class="body-text" style="margin-top:8px;">No constraints outside the ICO tranche. Your treasury, your call.</p>
-      </div>
-    </div>
-    <div class="highlight">
-      <p>EPICO is a <strong>raise structure</strong>, not a full-stack governance system. You commit to escrow on the public sale only — and keep complete control over the rest of your tokenomics, your treasury, and your operations.</p>
-    </div>
+  <div class="split-panel split-blue">
+    <h2 style="color: var(--white);">What EPICO Governs</h2>
+    <p class="subtitle" style="font-style: italic; color: rgba(255,255,255,0.85); margin-bottom: 24px;">"EPICO governs only the public sale tranche — escrow, monthly release, airdrop, refund right. Fixed and audited."</p>
+    <p class="lead" style="color: rgba(255,255,255,0.95);">
+      Only the <strong style="color: var(--white);">public sale allocation</strong> — the tokens and capital
+      from the ICO tranche routed through Impossible Finance. Inside this scope,
+      the structure is non-negotiable: escrow, monthly release, airdrop, refund right.
+    </p>
+    <ul class="split-list" style="margin-top:28px;">
+      <li style="color: rgba(255,255,255,0.95);">Funds in escrow, released in 10 monthly tranches</li>
+      <li style="color: rgba(255,255,255,0.95);">Airdrop schedule mirrored to refund decay</li>
+      <li style="color: rgba(255,255,255,0.95);">Refund right declining 100% → 0% over M0–M10</li>
+    </ul>
+  </div>
+  <div class="split-panel split-white">
+    <h2><span class="dark">What Stays</span> <span class="blue">Yours</span></h2>
+    <p class="subtitle">"Every other allocation in your tokenomics — your treasury, your call. EPICO is a raise structure, not a governance system."</p>
+    <p class="lead">
+      Every allocation outside the public sale is fully under your control.
+      No constraints on tokenomics, treasury management, or operations.
+    </p>
+    <ul class="split-list" style="margin-top:24px;">
+      <li>Team and advisor vesting</li>
+      <li>Treasury and ecosystem funds</li>
+      <li>LP provisioning</li>
+      <li>Strategic partnerships</li>
+      <li>Future emissions and incentives</li>
+    </ul>
   </div>
 </div>
 
