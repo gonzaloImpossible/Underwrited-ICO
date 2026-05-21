@@ -525,10 +525,14 @@
     grid-template-columns: 1fr 88px 1fr;
     gap: 24px;
     padding: 72px 80px 64px;
-    align-items: start;
+    align-items: stretch;
   }
-  .diag-col { display: flex; flex-direction: column; max-width: 480px; }
-  .diag-vs { align-self: center; }
+  .diag-col {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-width: 480px;
+    row-gap: 24px;
+  }
   .diag-col.left  { justify-self: end; padding-right: 16px; }
   .diag-col.right { justify-self: start; padding-left: 48px; color: var(--white); }
   .diag-col.right .diag-bullets li { color: rgba(255,255,255,0.92); }
@@ -549,12 +553,12 @@
     color: var(--neutral-950);
     letter-spacing: -.02em;
     text-transform: uppercase;
-    align-self: center;
+    height: 100%;
   }
-  .diag-bullets { list-style: none; display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; }
+  .diag-bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; padding: 0; margin: 0; align-self: center; }
   .diag-bullets li {
-    display: flex; gap: 12px; align-items: flex-start;
-    font-size: 14.5px; line-height: 1.55; color: var(--neutral-700, var(--neutral-800));
+    display: flex; gap: 14px; align-items: flex-start;
+    font-size: 17px; line-height: 1.55; color: var(--neutral-800);
   }
   .diag-bullets li::before {
     content: '';
@@ -982,7 +986,7 @@
         decays predictably from 100% at TGE to 0% at month 10.
       </p>
     </div>
-    <div style="flex: 1; min-width: 0; display: flex; justify-content: flex-end;">
+    <div style="flex: 1; min-width: 0; display: flex; justify-content: center;">
       <svg viewBox="0 0 720 440" xmlns="http://www.w3.org/2000/svg" aria-label="EPICO payout curves by refund timing" style="width: 100%; max-width: 820px; display: block; height: auto;">
         <!-- Title block -->
         <text x="80" y="28" fill="rgba(255,255,255,0.92)" font-family="'Archivo Black', system-ui" font-size="13" letter-spacing="2px">PAYOUT BY REFUND TIMING</text>

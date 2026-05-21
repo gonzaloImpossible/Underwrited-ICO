@@ -492,10 +492,14 @@
     grid-template-columns: 1fr 88px 1fr;
     gap: 24px;
     padding: 72px 80px 64px;
-    align-items: start;
+    align-items: stretch;
   }
-  .diag-col { display: flex; flex-direction: column; max-width: 480px; }
-  .diag-vs { align-self: center; }
+  .diag-col {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-width: 480px;
+    row-gap: 24px;
+  }
   .diag-col.left  { justify-self: end; padding-right: 16px; }
   .diag-col.right { justify-self: start; padding-left: 48px; color: var(--white); }
   .diag-col.right .diag-bullets li { color: rgba(255,255,255,0.92); }
@@ -516,12 +520,12 @@
     color: var(--neutral-950);
     letter-spacing: -.02em;
     text-transform: uppercase;
-    align-self: center;
+    height: 100%;
   }
-  .diag-bullets { list-style: none; display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; }
+  .diag-bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; padding: 0; margin: 0; align-self: center; }
   .diag-bullets li {
-    display: flex; gap: 12px; align-items: flex-start;
-    font-size: 14.5px; line-height: 1.55; color: var(--neutral-800);
+    display: flex; gap: 14px; align-items: flex-start;
+    font-size: 17px; line-height: 1.55; color: var(--neutral-800);
   }
   .diag-bullets li::before {
     content: '';
